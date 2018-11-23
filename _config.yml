@@ -1,3 +1,4 @@
+repository: yogae/yogae.github.io
 collections:
   authors:
     output: true
