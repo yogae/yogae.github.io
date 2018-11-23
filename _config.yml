@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 collections:
   authors:
     output: true
@@ -16,3 +17,10 @@ defaults:
       path: ""
     values:
       layout: "default"
+=======
+theme: jekyll-theme-slate
+title: yogae
+description: 정리
+include:
+  - README.md
+>>>>>>> b8b9ce3d1d1b74f7e672148af93af7aa9124b786
