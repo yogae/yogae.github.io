@@ -1,21 +1,9 @@
+title: Slate theme
 repository: yogae/yogae.github.io
+
+description: Slate is a theme for GitHub Pages.
+show_downloads: true
 collections:
   authors:
     output: true
-defaults:
-  - scope:
-      path: ""
-      type: "authors"
-    values:
-      layout: "author"
-  - scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: "post"
-  - scope:
-      path: ""
-    values:
-      layout: "default"
-
 theme: jekyll-theme-slate

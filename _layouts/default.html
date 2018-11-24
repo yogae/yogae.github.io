@@ -1,12 +1,32 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-US" }}">
+
   <head>
-    <meta charset="utf-8">
-    <title>{{ page.title }}</title>
-    <link rel="stylesheet" href="/assets/css/styles.css">
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/styles.css?v=' | append: site.github.build_revision | relative_url }}">
   </head>
   <body>
-    {% include navigation.html %}
-    {{ content }}
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+      {% include navigation.html %}
+        <header class="inner">
+          <img class="profile" src="/assets/images/JH_KIM.png">
+          <div class="profile-title">
+            <h1 id="project_title">yogae</h1>
+            <h2 id="project_tagline">{{ site.description | default: site.github.project_tagline }}</h2>
+          <div>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        {{ content }}
+      </section>
+    </div>
+
+    {% include footer.html %}
   </body>
 </html>
