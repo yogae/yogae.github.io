@@ -5,8 +5,15 @@ show_downloads: true
 collections:
   authors:
     output: true
+  categories:
+    output: true
 theme: jekyll-theme-slate
 defaults:
+  - scope:
+      path: ""
+      type: "categories"
+    values:
+      layout: "category"
   - scope:
       path: ""
       type: "authors"
