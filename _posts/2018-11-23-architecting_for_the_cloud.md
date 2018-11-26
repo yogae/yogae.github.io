@@ -88,4 +88,18 @@ SAA 시험 정리
   - EC2 instance를 customize하고 AMI을 만들어 저장할 수 있다. 매번 configuration을 변경하고 싶다면 Golden Image를 만들어야 한다.
   - On-promise 가상환경을 가지고 있다면 다양한 가상환경 포맷에서 AMI로 변환하기 위해서 VM Import/Export를 사용할 수 있다.
 - Containers
-  - 
+  - AWS Elastic Beanstalk, Amazon Elastic Container Service(ECS) 그리고 AWS Fargate는 EC2 instance cluster를 통해 multi container를 배포하고 관리할 수 있게 한다. golden Docker images를 빌드 할 수 있고 ECS Container Registry를 이용하여 관리할 수 있다.
+  - container환경의 대안으로 Kubernetes와 EKS를 사용할 수 있다. 
+- Hybrid
+  - 2가지의 접근을 결하하여 사용할 수 있다. configuration의 어떤 부부은 golden image에 넣고 다른 부분은 bootstrapping으로 동적으로 설정할 수 있다.
+    - 변하지 않거나 외부 dependencies를 넣는 아이템은 golden image의 부분이 된다.
+    - 자주 변하거나 다양한 환경들은 bootstrapping으로 동적으로 set up 한다. 
+  - AWS Elastic Beanstalk는 hybrid 모델을 따른다. preconfigured run
+    time environments을 제공하여 자신의 AMI로 초기화 한다. 또한, .ebextensions configuration 파일로 bootstrap action을 실행할 수 있다.
+
+#### Infrastructure as Code
+
+지금까지 논의한 원칙의 적용을 개별 리소스 수준으로 제한할 필요는 없습니다. AWS asset은 프로그램화 할 수 있기때문에 소프트웨어 개발에서 techniques, practices, and tool를 적용하여 전체 인프라를 재사용 가능하고, 유지 관리 가능하고, 확장 가능하며, 테스트할 수 있습니다.
+
+- AWS CloudFormation templates
+  - AWS CloudFormation templates은 관련 AWS 리소스 모음을 만들고 관리할 수 있는 쉬운 방법을 제공합니다. 또한, 순차적이고 예측가능한 fashion으로 provision하고 update할 수 있습니다.
