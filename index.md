@@ -1,9 +1,39 @@
 ---
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 layout: default
 title: Home
 ---
 
-<h1>Yogae</h1>
+## Yogae
 
+### TODO
+  - [ ] Python
+    - [ ] django - 파이썬 웹프로그래밍 (진행중)
+    - [ ] flask
+    - [ ] zappa
+    - [ ] merchine learning
+  - [ ] SAA 시험 준비
+    - [x] [Amazon Web Service 개요](https://d1.awsstatic.com/International/ko_KR/whitepapers/aws-overview.pdf)
+    - [ ] [Architecting for the Cloud](https://d1.awsstatic.com/whitepapers/AWS_Cloud_Best_Practices.pdf) (진행중)
+    - [ ] [AWS Security Best Practices](https://d1.awsstatic.com/whitepapers/Security/AWS_Security_Best_Practices.pdf)
+    - [ ] [AWS Storage Services Overview](https://d1.awsstatic.com/whitepapers/Storage/AWS%20Storage%20Services%20Whitepaper-v9.pdf)
+    - [ ] Q & A
+  - [ ] Kubernetes
+  - [ ] Elastic Search
+  - [ ] AWS Service
+    - [ ] IoT MQTT - Amplify
+    - [ ] SageMaker
+    - [ ] EKS
+    - [x] ECS
+    - [x] CloudFront
+    - [x] Cognito
+  - [x] Typescript
+  - [x] Serverless
+  - [ ] Webpack
+  - [x] Terraform
+  - [ ] Vue
+    - [x] 기본 사용
+    - [ ] Vuex
+  - [x] CircleCI
+
+### Books
+- 진중권의 서양미술사(인상주의 편)
