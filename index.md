@@ -26,7 +26,7 @@ title: Home
     - [x] ECS
     - [x] CloudFront
     - [x] Cognito
-  - [x] Typescript
+  - [x] Typescript - 타입스크립트 마스터 2/e
   - [x] Serverless
   - [ ] Webpack
   - [x] Terraform
