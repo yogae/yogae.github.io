@@ -1,0 +1,5 @@
+<div class="sidenav">
+{% for item in site.data.navigation %}
+<a {% if page.url == item.link %} class="select" {% endif %} href="{{ item.link }}">{{ item.name }}</a>
+{% endfor %}
+</div>

@@ -1,13 +1,15 @@
 <nav>
-  <table>
-      <tr>
-        {% for item in site.data.navigation %}
-          <th {% if page.url == item.link %} class="select" {% endif %}>
-            <a href="{{ item.link }}">
-              {{ item.name }}
-            </a>
-          </th>
-        {% endfor %}
-      </tr>
-  </table>
+  <div class="nav-block">
+    <table>
+        <tr>
+          {% for item in site.data.navigation %}
+            <th {% if page.url == item.link %} class="select" {% endif %}>
+              <a href="{{ item.link }}">
+                {{ item.name }}
+              </a>
+            </th>
+          {% endfor %}
+        </tr>
+    </table>
+  </div>
 </nav>

@@ -6,11 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,maximum-scale=2">
     <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/styles.css?v=' | append: site.github.build_revision | relative_url }}">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   </head>
   <body>
+    <!-- SIDE BAR -->
+    {% include sidebar.html %}
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
-      {% include navigation.html %}
+      {% comment %} {% include navigation.html %} {% endcomment %}
         <header class="inner">
           <img class="profile" src="/assets/images/JH_KIM.png">
           <div class="profile-title">
