@@ -2,7 +2,7 @@
 layout: post
 title:  "Architecting for the Cloud"
 date:   2018-11-23 21:11:42 +0900
-category: SAA
+categories: SAA
 author: yogae
 ---
 SAA 시험 정리

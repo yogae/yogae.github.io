@@ -6,10 +6,38 @@ title: Blog
 
 <ul>
   {% for post in site.posts %}
-    <li>
-      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-      <p class="blog-category">{{ post.categories }}</p>
-      <p>{{ post.excerpt }}</p>
-    </li>
+    <div class="blog-post">
+      <a href="{{ post.url }}">
+        <h2>{{ post.title }}</h2>
+        {% assign category = post.categories | split: ' ' | uni %}
+        <p class="blog-categories">{{ category }}</p>
+        <p>{{ post.excerpt }}</p>
+      </a>
+    </div>
   {% endfor %}
 </ul>
+
+<script>
+
+function makeIconTag (customClassName, text, iconClass) {
+  const iconTag = `<i class=\"${iconClass}\"></i>`
+  const pTag = `<p class=\"blog-category ${customClassName}\">${iconTag}${text}<\/p>`
+  return pTag;
+}
+const iconMap = new Map();
+$(".blog-categories").each(function (item, element) {
+  const self = this;
+  iconMap.set("Python", makeIconTag('catogory-python', 'Python', 'fab fa-python category-icon'));
+  iconMap.set("SAA", makeIconTag('catogory-saa', 'SAA', 'fas fa-certificate'));
+  iconMap.set("MongoDB", makeIconTag('catogory-mongodb', 'MongoDB', 'fab fa-envira'));
+  
+  const category = $(this).text();
+  const result = JSON.parse(category);
+  $(self).empty();
+  result.map((oneCategory) => {
+    const prependTag = iconMap.get(oneCategory);
+    $(self).prepend(prependTag);
+  });
+  
+})
+</script>

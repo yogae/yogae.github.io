@@ -2,7 +2,7 @@
 layout: post
 title:  "MongoDB index 설정"
 date:   2018-11-27
-category: MongoDB
+categories: MongoDB
 author: yogae
 
 ---

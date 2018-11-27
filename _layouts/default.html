@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width,maximum-scale=2">
     <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/styles.css?v=' | append: site.github.build_revision | relative_url }}">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
   </head>
   <body>
     <!-- SIDE BAR -->
@@ -15,7 +16,7 @@
     <div id="header_wrap" class="outer">
       {% comment %} {% include navigation.html %} {% endcomment %}
         <header class="inner">
-          <img class="profile" src="/assets/images/JH_KIM.png">
+          {% comment %} <img class="profile" src="/assets/images/JH_KIM.png"> {% endcomment %}
           <div class="profile-title">
             <h1 id="project_title">{{ site.title }}</h1>
             <h2 id="project_tagline">{{ site.description | default: site.github.project_tagline }}</h2>
