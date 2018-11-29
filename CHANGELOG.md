@@ -1,5 +1,10 @@
 # Change log
 
+## [v0.0.4](https://github.com/yogae/yogae.github.io/compare/v0.0.3...v0.0.4) - 2018-11-29
+
+## Fixed
+- posts를 diary형식으로 변경
+
 ## [v0.0.3](https://github.com/yogae/yogae.github.io/compare/v0.0.2...v0.0.3) - 2018-11-24
 
 ### Added

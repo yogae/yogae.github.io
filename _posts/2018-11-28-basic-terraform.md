@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Terraform 사용법"
-date:   2018-11-28
+date: 2018-11-28
 categories: Terraform
 author: yogae
 ---

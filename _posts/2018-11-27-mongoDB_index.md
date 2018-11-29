@@ -1,10 +1,9 @@
 ---
 layout: post
 title:  "MongoDB index 설정"
-date:   2018-11-27
+date: 2018-11-27
 categories: MongoDB
 author: yogae
-
 ---
 MongoDB index 종류 및 특징 정리
 

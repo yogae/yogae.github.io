@@ -256,7 +256,6 @@ Full-Width Styles
 *******************************************************************************/
 
 .outer {
-  margin-left: 100px;
   width: 100%;
 }
 
@@ -536,10 +535,46 @@ Small Device Styles
 // ########
 
 .blog-post {
-  background: rgb(238, 229, 216);
-  padding: 10px 30px 10px 30px;
-  margin-top: 30px;
-  border-radius: 20px;
+  text-align: left;
+  padding: 0px;
+  margin-top: 15px;
+  height: 120px;
+  border-bottom: #ddd;
+  border-bottom-style: dashed;
+  border-bottom-width: 1px;
+}
+
+.blog-post-add {
+  text-align: left;
+  padding: 0px;
+  margin-top: 15px;
+  height: 120px;
+  border-bottom: #ddd;
+  border-bottom-style: dashed;
+  border-bottom-width: 1px;
+}
+
+.blog-date {
+  display: inline-block;
+  width: 100px;
+}
+
+.blog-weekday, .blog-day {
+  display: table;
+  color: #aaa;
+  margin: 5px;
+}
+
+.blog-categories{
+  display: inline;
+}
+
+.blog-title {
+  display: inline;
+}
+
+.blog-post a{
+  color: #222222;
 }
 
 .category-icon {

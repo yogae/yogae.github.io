@@ -2,23 +2,84 @@
 layout: default
 title: Blog
 ---
-<h1>Latest Posts</h1>
+<h2>Latest Posts</h2>
 
-<ul>
+<div id="diary">
   {% for post in site.posts %}
     <div class="blog-post">
+      <div class="blog-date">
+        <p class="value-date" style="display: none;">{{ post.date | date: "%Y-%m-%d"}}</p>
+        <p class="blog-weekday">{{ post.date | date: "%A"}}</p>
+        <p class="blog-day">{{ post.date | date: "%d"}}</p>
+      </div>
+      {% assign category = post.categories | split: ' ' | uniq %}
       <a href="{{ post.url }}">
-        <h2>{{ post.title }}</h2>
-        {% assign category = post.categories | split: ' ' | uni %}
         <p class="blog-categories">{{ category }}</p>
-        <p>{{ post.excerpt }}</p>
+        <p class="blog-title">{{ post.title }}</p>
       </a>
     </div>
   {% endfor %}
-</ul>
+</div>
 
 <script>
+let startDate = '2018-11-20';
+function formatDate(date, addDay) {
+  const d = new Date(date);
+  d.setDate((d.getDate() + addDay));
+  let month = '' + (d.getMonth() + 1);
+  let day = '' + d.getDate();
+  let year = d.getFullYear();
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+  return [year, month, day].join('-');
+};
 
+function getWeekend (date) {
+  var d = new Date(date);
+  var weekday = new Array(7);
+  weekday[0] =  "Sunday";
+  weekday[1] = "Monday";
+  weekday[2] = "Tuesday";
+  weekday[3] = "Wednesday";
+  weekday[4] = "Thursday";
+  weekday[5] = "Friday";
+  weekday[6] = "Saturday";
+  return weekday[d.getDay()];
+}
+
+function getTagForm(date) {
+  const dateArray = date.split('-');
+  const tag = 
+      "<div class=\"blog-post\">"
+      + "<div class=\"blog-date\">"
+      + `<p class=\"blog-weekday\">${getWeekend(date)}</p>`
+      + `<p class="blog-day">${dateArray[2]}</p>`
+      + "</div>"
+      + "</div>";
+  return tag;
+}
+
+function diffDate (preDate, compareDate) {
+  {% comment %} TODO: 날짜가 중복되는 경우 {% endcomment %}
+  {% comment %} TODO: 다른 종류의 콘텐츠를 추가할 경우 {% endcomment %}
+
+  const oneDayBeforeDate = formatDate(preDate, -1);
+  if (oneDayBeforeDate !== compareDate) {
+    const appened = $(this).after(getTagForm(oneDayBeforeDate));
+    diffDate.call($(this).next(), oneDayBeforeDate, compareDate);
+  }
+}
+
+let previousDate;
+$(".blog-post").each(function (idx, val) {
+  const self = this;
+  const date = $(this).find(".value-date").text();
+  if (idx !== 0) {
+    diffDate.call($(self).prev(), previousDate, date);
+  }
+  previousDate = date;
+});
+{% comment %} $("#blog-post"). {% endcomment %}
 function makeIconTag (customClassName, text, iconClass) {
   const iconTag = `<i class=\"${iconClass}\"></i>`
   const pTag = `<p class=\"blog-category ${customClassName}\">${iconTag}${text}<\/p>`
@@ -30,7 +91,8 @@ $(".blog-categories").each(function (item, element) {
   iconMap.set("Python", makeIconTag('catogory-python', 'Python', 'fab fa-python category-icon'));
   iconMap.set("SAA", makeIconTag('catogory-saa', 'SAA', 'fas fa-certificate'));
   iconMap.set("MongoDB", makeIconTag('catogory-mongodb', 'MongoDB', 'fab fa-envira'));
-  
+  iconMap.set("Terraform", makeIconTag('catogory-terraform', 'Terraform', 'fas fa-cogs'));
+
   const category = $(this).text();
   const result = JSON.parse(category);
   $(self).empty();
