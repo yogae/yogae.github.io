@@ -1,14 +1,10 @@
 ---
 layout: post
-title:  "Django 프래임워크"
+title:  "Django 프레임워크"
 date: 2018-11-29
 categories: Python
 author: yogae
 ---
-
-- Django 프레임워크를 사용하여 간단한 application 개발
-- 파이썬 웹프로그래밍(김석훈 지음)책을 따라 작성
-- hosing은 pythonanywhere을 사용
 
 # 정리
 - Django는 많은 기능들을 재공하고 있으며 이를 규격화 빠르게 개발 할 수 있도록 되어있다.
@@ -18,5 +14,8 @@ author: yogae
 - NGNIX와 같을 웹서버 프로그램이 클라이언트 요청을 수신하므로, WAS 서버를 통하여 장고 웹 애플리케이션을 호출할 수 있도록 한다.
 
 # test
+- Django 프레임워크를 사용하여 간단한 application 개발
+- 파이썬 웹프로그래밍(김석훈 지음)책을 따라 작성
+- hosing은 pythonanywhere을 사용
 - [django project code](https://github.com/yogae/django-test)
 - [website](http://yogae.pythonanywhere.com/)
