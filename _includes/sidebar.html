@@ -1,5 +1,7 @@
 <div class="sidenav">
-{% for item in site.data.navigation %}
-<a {% if page.url == item.link %} class="select" {% endif %} href="{{ item.link }}">{{ item.name }}</a>
-{% endfor %}
+    <a {% if page.url == item.link %} class="select" {% endif %} href="/"><i class="fas fa-home"></i>HOME</a>
+    <a {% if page.url == item.link %} class="select" {% endif %} href="/plan.html"><i class="far fa-calendar-check"></i>PLAN</a>
+    <a {% if page.url == item.link %} class="select" {% endif %} href="/blog.html"><i class="fas fa-edit"></i>BLOG</a>
+    <a {% if page.url == item.link %} class="select" {% endif %} href="/category.html"><i class="fas fa-tags"></i></i>CATEGORY</a>
+    <a {% if page.url == item.link %} class="select" {% endif %} href="/staff.html"><i class="fas fa-users"></i>STAFF</a>
 </div>

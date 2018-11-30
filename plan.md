@@ -17,7 +17,7 @@ title: About
 
 ## In Progress
 - [ ] Python
-    - [ ] django - 파이썬 웹프로그래밍 (진행중)
+    - [x] django - 파이썬 웹프로그래밍 (진행중)
     - [ ] flask
     - [ ] zappa
     - [ ] merchine learning

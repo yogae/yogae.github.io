@@ -6,10 +6,10 @@ title: Staff
 
 <ul>
   {% for author in site.authors %}
-    <li>
+    <div>
       <h2><a href="{{ author.url }}">{{ author.short_name }}</a></h2>
       <h3>{{ author.name }}</h3>
       <h5>{{ author.position }}</h5>
-    </li>
+    </div>
   {% endfor %}
 </ul>
