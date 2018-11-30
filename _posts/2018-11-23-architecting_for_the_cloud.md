@@ -103,3 +103,33 @@ SAA 시험 정리
 
 - AWS CloudFormation templates
   - AWS CloudFormation templates은 관련 AWS 리소스 모음을 만들고 관리할 수 있는 쉬운 방법을 제공합니다. 또한, 순차적이고 예측가능한 fashion으로 provision하고 update할 수 있습니다.
+
+### Automation
+
+전통적인 IT 인프라스트럭처에서는 다양한 event에 대하여 수동적으로 대응해야만 합니다. AWS에서 배포할 때 시스템의 안정성과 조직의 효율성을 향상시키기 위하여 자동화 할 수 있다.
+
+#### Serverless Management and Deployment
+
+serverless 패턴을 채택하면,  deployment pipeline의 자동화에 초점을 둡니다. AWS는 기본 서비스, 규모 및 가용성을 관리합니다. AWS CodePipeline, AWS CodeBuild 및 AWS CodeDeploy는 이러한 프로세스의 배포 자동화를 지원합니다.
+
+#### Infrastructure Management and Deployment
+
+- AWS Elastic Beanstalk
+
+  - 이 서비스를 사용하여 web application과 Java, .NET, PHP, Node.js, Python, Ruby, Go, Docker로 개발된 서비스를 Apache, NGINX, Passenger, IIS와 같은 친숙한 서버에 배포와  확장할 수 있습니다
+  - 개발자들은 application code을 쉽게 업로드하고 자동적으로 resource provisioning, load balancing, auto scaling, monitoring과 같은 세부사항을 관리할 수 있습니다.
+
+- Amazon EC2 auto recovery
+
+  EC2 instance와 자동적으로 복구하는 Amazon CloudWatch alarm을 만들 수 있다. 복구된 instance는 인스턴스 ID,  private IP addresses, Elastic IP addresses, and all instance, metadata를 포함하여 원본 instance와 같다. 하지만 이 기능은 해당 instance 구성에서만 사용할 수 있습니다. instance가 스턴스가 복구되는 동안 instance reboot으로 마이그레이션 되고 메모리에 있는 데이터는 사라집니다.
+
+- AWS Systems Manager
+
+  software inventory를 모으고 Windows와 Linux로 설정된 system image 만들고 임의의 명령을 자동적으로 실행할 수 있습니다. 이러한 서비스를 프로비저닝하면 운영 모델을 단순화하고 최적의 환경 구성을 보장 할 수 있습니다.
+
+- Auto Scaling
+
+  - 
+
+#### Alarms and Events
+

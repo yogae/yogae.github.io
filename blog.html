@@ -7,16 +7,23 @@ title: Blog
 <div id="diary">
   {% for post in site.posts %}
     <div class="blog-post">
-      <div class="blog-date">
-        <p class="value-date" style="display: none;">{{ post.date | date: "%Y-%m-%d"}}</p>
-        <p class="blog-weekday">{{ post.date | date: "%A"}}</p>
-        <p class="blog-day">{{ post.date | date: "%d"}}</p>
-      </div>
-      {% assign category = post.categories | split: ' ' | uniq %}
-      <a href="{{ post.url }}">
-        <p class="blog-categories">{{ category }}</p>
-        <p class="blog-title">{{ post.title }}</p>
-      </a>
+        <div class="blog-date">
+          <p class="value-date" style="display: none;">{{ post.date | date: "%Y-%m-%d"}}</p>
+          {% assign dayoftheweek = post.date | date: "%A" %}
+          {% if dayoftheweek == "Sunday" or dayoftheweek == "Saturday" %}
+            <p class="blog-dayoftheweek blog-weekend" >{{ dayoftheweek }}</p>
+          {% else %}
+            <p class="blog-dayoftheweek blog-weekday" >{{ dayoftheweek }}</p>
+          {% endif %}
+          <p class="blog-day">{{ post.date | date: "%d"}}</p>
+        </div>
+        {% assign category = post.categories | split: ' ' | uniq %}
+        <div class="blog-content">
+          <a class="blog-content-row" href="{{ post.url }}">
+            <p class="blog-categories">{{ category }}</p>
+            <p class="blog-title">{{ post.title }}</p>
+          </a>
+        </div>
     </div>
   {% endfor %}
 </div>
@@ -34,10 +41,10 @@ function formatDate(date, addDay) {
   return [year, month, day].join('-');
 };
 
-function getWeekend (date) {
+function getWeek(date) {
   var d = new Date(date);
   var weekday = new Array(7);
-  weekday[0] =  "Sunday";
+  weekday[0] = "Sunday";
   weekday[1] = "Monday";
   weekday[2] = "Tuesday";
   weekday[3] = "Wednesday";
@@ -49,24 +56,31 @@ function getWeekend (date) {
 
 function getTagForm(date) {
   const dateArray = date.split('-');
+  const week = getWeek(date);
+  const dayColorClass = week === "Sunday" || week === "Saturday" ? 'blog-weekend' : 'blog-weekday';
   const tag = 
       "<div class=\"blog-post\">"
       + "<div class=\"blog-date\">"
-      + `<p class=\"blog-weekday\">${getWeekend(date)}</p>`
-      + `<p class="blog-day">${dateArray[2]}</p>`
+      + `<p class=\"blog-dayoftheweek  ${dayColorClass}\" >${week}</p>`
+      + `<p class=\"blog-day\">${dateArray[2]}</p>`
       + "</div>"
       + "</div>";
   return tag;
 }
 
 function diffDate (preDate, compareDate) {
-  {% comment %} TODO: 날짜가 중복되는 경우 {% endcomment %}
-  {% comment %} TODO: 다른 종류의 콘텐츠를 추가할 경우 {% endcomment %}
+  // TODO: 다른 종류의 콘텐츠를 추가할 경우
 
-  const oneDayBeforeDate = formatDate(preDate, -1);
-  if (oneDayBeforeDate !== compareDate) {
-    const appened = $(this).after(getTagForm(oneDayBeforeDate));
-    diffDate.call($(this).next(), oneDayBeforeDate, compareDate);
+  // 날짜가 중복되는 경우
+  if (preDate === compareDate) {
+    $(this).children(".blog-content").append($(this).next().remove().children(".blog-content").children("a"));
+  } else {
+    // post 날짜 중간이 비는 날짜가 있는 경우
+    const oneDayBeforeDate = formatDate(preDate, -1);
+    if (oneDayBeforeDate !== compareDate) {
+      const appened = $(this).after(getTagForm(oneDayBeforeDate));
+      diffDate.call($(this).next(), oneDayBeforeDate, compareDate);
+    }
   }
 }
 
@@ -80,18 +94,20 @@ $(".blog-post").each(function (idx, val) {
   previousDate = date;
 });
 {% comment %} $("#blog-post"). {% endcomment %}
-function makeIconTag (customClassName, text, iconClass) {
+function makeIconTag (color, text, iconClass) {
+  const style = `style=\"color: ${color}\"`
   const iconTag = `<i class=\"${iconClass}\"></i>`
-  const pTag = `<p class=\"blog-category ${customClassName}\">${iconTag}${text}<\/p>`
+  const pTag = `<p class=\"blog-category\" ${style}>${iconTag}${text}<\/p>`
   return pTag;
 }
 const iconMap = new Map();
 $(".blog-categories").each(function (item, element) {
   const self = this;
-  iconMap.set("Python", makeIconTag('catogory-python', 'Python', 'fab fa-python category-icon'));
-  iconMap.set("SAA", makeIconTag('catogory-saa', 'SAA', 'fas fa-certificate'));
-  iconMap.set("MongoDB", makeIconTag('catogory-mongodb', 'MongoDB', 'fab fa-envira'));
-  iconMap.set("Terraform", makeIconTag('catogory-terraform', 'Terraform', 'fas fa-cogs'));
+  iconMap.set("Python", makeIconTag('#0090ff', 'Python', 'fab fa-python category-icon'));
+  iconMap.set("SAA", makeIconTag('rgb(182, 59, 59)', 'SAA', 'fas fa-certificate'));
+  iconMap.set("MongoDB", makeIconTag('rgb(79, 187, 69)', 'MongoDB', 'fab fa-envira'));
+  iconMap.set("Terraform", makeIconTag('gray', 'Terraform', 'fas fa-cogs'));
+  iconMap.set("NodeJS", makeIconTag('green', 'NodeJS', 'fab fa-node-js'));
 
   const category = $(this).text();
   const result = JSON.parse(category);

@@ -559,10 +559,26 @@ Small Device Styles
   width: 100px;
 }
 
-.blog-weekday, .blog-day {
+.blog-dayoftheweek, .blog-day {
   display: table;
-  color: #aaa;
   margin: 5px;
+}
+
+.blog-weekday {
+  color: #aaa;
+}
+
+.blog-weekend {
+  color: rgb(247, 146, 146);
+}
+
+.blog-content {
+  display: inline-block;
+}
+
+.blog-content .blog-content-row{
+  display: block;
+  margin-bottom: 5px;
 }
 
 .blog-categories{
@@ -587,18 +603,6 @@ Small Device Styles
   padding: 2px;
   border-radius: 5px;
   margin-right: 5px;
-}
-
-.catogory-python {
-  color: #0090ff;
-}
-
-.catogory-saa {
-  color: rgb(182, 59, 59)
-}
-
-.catogory-mongodb {
-  color: rgb(79, 187, 69)
 }
 
 .git-custom {
