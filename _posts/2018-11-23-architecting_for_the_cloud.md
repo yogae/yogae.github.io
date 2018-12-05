@@ -5,8 +5,6 @@ date: 2018-11-23
 categories: SAA
 author: yogae
 ---
-SAA 시험 정리
-
 ## Design Principles
 
 ### Scalability
@@ -161,9 +159,18 @@ application의 복잡성이 증가하면서 IT system의 요구 속성이 더 �
 
 #### Well-Defined Interfaces
 
-system에서 상호작용을 감소시키는 방법은 다양한 conponent이 RESTful API같은 기술에 의존하는 않는 interfaces를 통하여 소통하도록 하는 것이다. 기술 구현 세부 정보가 숨겨져서 다른 component에 영향을 주지 않으면서 내부 구현을 수정할 수 있도록 할 수 있습니다. 이러한 인터페이스가 하위 호환성을 유지하는 한 다른 component의 배포가 분리됩니다. 이 세분화된 디자인 패턴은 microservuces architecture에 보통 언급됩니다.
+system에서 상호작용을 감소시키는 방법은 다양한 conponent이 RESTful API같은 기술에 의존하는 않는 interfaces를 통하여 소통하도록 하는 것입니다. 기술 구현 세부 정보가 숨겨져서 다른 component에 영향을 주지 않으면서 내부 구현을 수정할 수 있도록 할 수 있습니다. 이러한 인터페이스가 하위 호환성을 유지하는 한 다른 component의 배포가 분리됩니다. 이 세분화된 디자인 패턴은 microservuces architecture에 보통 언급됩니다.
 
 Amazon API Gateway는 개발자가 모든 규모의 API를 쉽게 create, publish, maintain, monitor, 그리고  secure하는 완전 관리형 서비스 입니다. traffic 관리, authorization그리고 access control, monitoring, API version 관리하면서 수십만 이르는 동시 API콜까지 처리할 수 있습니다.
 
+#### Service Discovery
 
+작은 서비스의 집합으로 배포되는 application은 각각의 서비스들과의 상호작용에 의존합니다. 각각의 스비스는 여러 compute resource로 운영되기 때문에 각 서비스를 처리 할 수 있는 방법이 필요합니다. 
+
+- 예를 들어 전통적인 infrastructure에서는 front-end web 서비스가 back-end web 서비스에 연결되어야 한다면 이 서비스가 운영되거 있는 compute resource의 IP 주소 hardcode했었습니다. cloud computing에서 이 방법은 아직 가능하지만 서비스들의 느슨한 결합을 위해서 네트워크 기술의 세부정보의 사전지식 없이 서비스를 사용할 수 있어야 합니다. 복잡성을 숨기는 것 외에도 아무때나 infrastructure의 세부사항을 변경할 수 있게 합니다.
+- 아무때나 새로운 resource를 시작하거나 중지할 수 있는 cloud computing의 탄력성을 이용하려면  느슨한 결합은 중요한 요소입니다. 이를 달성하기 위해 service discovery를 구현하는 방법이 필요합니다.
+
+##### Implement Service Discovery
+
+EC2-hosted service를 위해서 ELB로 서비스를 사용하여 service discovery를 달성하는 것이 간단한 방법입니다. 각각의 load balancer는 자신의 hostname을 가지기 때문에 안정적인 endpoint 통해 서비스를 사용할 수 있습니다.
 

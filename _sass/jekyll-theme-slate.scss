@@ -256,6 +256,7 @@ Full-Width Styles
 *******************************************************************************/
 
 .outer {
+  padding-left: 60px;
   width: 100%;
 }
 
@@ -479,9 +480,25 @@ Small Device Styles
 // #######
 // sidebar
 // #######
-.sidenav {
-  height: 100%;
+
+.nav-fa-text.open {
+  display: inline;
+}
+
+.nav-fa-text.close {
+  display: none;
+}
+
+.sidenav.open {
   width: 160px;
+}
+
+.sidenav.close {
+  width: 50px;
+}
+
+.sidenav{
+  height: 100%;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -489,6 +506,22 @@ Small Device Styles
   background: #726177;
   overflow-x: hidden;
   padding-top: 20px;
+}
+
+.fa-bars {
+  color: #f1f1f1;
+}
+
+.sidenav .navbars {
+  margin-left: 20px;
+}
+
+#navbars{
+  cursor: pointer;
+}
+
+#navbars:hover{
+  color: #0090ff;
 }
 
 .sidenav a {

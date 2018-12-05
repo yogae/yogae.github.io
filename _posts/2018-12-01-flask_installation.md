@@ -1,12 +1,10 @@
 ---
 layout: post
-title:  "flask 사용"
+title:  "flask 설치"
 date: 2018-12-01
 categories: Python
 author: yogae
 ---
-
-## 설치
 
 ### Python Version
 
@@ -35,13 +33,24 @@ flask 설치와 함께 설치되는 package
 
 ### Virtual environments
 
+- 많은 Python project를 가질수록, 다른 버전의 Python으로 작업할 필요가 있다. 새로운 버전의 library는 다른 project에서 호환성이 깨질 수 있다.
+- Virtual enviroments는 Python library의 독립적인 그룹이 각 project마다 하나씩 있다. 하나의 project에 설치된 Pakage는 다른 project나 운영 system에 영향을 주지 않는다.
+- Python 3은 virtual enviroment를 만들기위한 venv module과 번들링되어 있다. 
 
+### Create an environment
 
+```bash
+mkdir myproject
+cd myproject
+python3 -m venv venv
+```
 
-## 구성
+### Install Flask
+
+```bash
+pip install Flask
+```
 
 
 ## Reference
-- [flask docs](http://flask.pocoo.org/docs/1.0/)
-  - [flask installation](http://flask.pocoo.org/docs/1.0/installation/#installation)
-- 
+- [flask installation](http://flask.pocoo.org/docs/1.0/installation/#installation)
