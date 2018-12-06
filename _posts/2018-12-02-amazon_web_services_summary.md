@@ -2,8 +2,7 @@
 layout: post
 title:  "Amazon Web Services 개요"
 date: 2018-11-20
-categories: 
-  - SAA
+categories: SAA
 author: yogae
 ---
 AWS 서비스 정리

@@ -15,6 +15,9 @@ title: About
 - [ ] Vue
     - [x] 기본 사용
     - [ ] Vuex
+- [ ] merchine learning
+    - [ ] TensorFlow
+    - [ ] SageMaker
 
 ## In Progress
 - [ ] SAA 시험 준비
@@ -27,7 +30,6 @@ title: About
     - [x] django - 파이썬 웹프로그래밍 
     - [ ] [flask](http://flask.pocoo.org/docs/1.0/) (진행중)
     - [ ] zappa
-    - [ ] merchine learning
 
 ## Done
 - [x] CircleCI

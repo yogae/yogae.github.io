@@ -240,9 +240,62 @@ def page_not_found(error):
     return render_template('page_not_found.html'), 404
 ```
 
-### About Responses
+```python
+# response data를 변경하기 위하여 make_response()를 사용한다.
+@app.errorhandler(404)
+def not_found(error):
+    resp = make_response(render_template('error.html'), 404)
+    resp.headers['X-Something'] = 'A value'
+    return resp
+```
 
+### Sessions
 
+사용자가 하나의 reqeust에서 다음 request로 정보를 저장할 수 있도록 합니다. cookie를 사용하여 구현됩니다. session을 사용하기 위해서는 secret key를 설정해야 합니다.
+
+```python
+from flask import Flask, session, redirect, url_for, escape, request
+
+app = Flask(__name__)
+
+# Set the secret key to some random bytes. Keep this really secret!
+# secret key를 생성하기 위한 명령: python -c 'import os; print(os.urandom(16))'
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
+@app.route('/')
+def index():
+    if 'username' in session:
+        return 'Logged in as %s' % escape(session['username'])
+    return 'You are not logged in'
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        session['username'] = request.form['username']
+        return redirect(url_for('index'))
+    return '''
+        <form method="post">
+            <p><input type=text name=username>
+            <p><input type=submit value=Login>
+        </form>
+    '''
+
+@app.route('/logout')
+def logout():
+    # remove the username from the session if it's there
+    session.pop('username', None)
+    return redirect(url_for('index'))
+```
+
+### Logging
+
+```python
+app.logger.debug('A value for debugging')
+app.logger.warning('A warning occurred (%d apples)', 42)
+app.logger.error('An error occurred')
+```
+
+> [logger 참고](https://docs.python.org/3/library/logging.html)
 
 ## Reference
 
