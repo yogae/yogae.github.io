@@ -18,6 +18,7 @@ title: About
 - [ ] merchine learning
     - [ ] TensorFlow
     - [ ] SageMaker
+- [ ] GCP
 
 ## In Progress
 - [ ] SAA 시험 준비
