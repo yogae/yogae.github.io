@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "flask tutorial"
+title:  "flask tutorial - Application Setup"
 date: 2018-12-07
 categories: Python
 author: yogae
@@ -125,6 +125,4 @@ export FLASK_APP=flaskr
 export FLASK_ENV=development
 flask run
 ```
-
-## Define and Access the Database
 
