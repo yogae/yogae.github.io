@@ -53,3 +53,79 @@ def close_db(e=None):
 
 ## Create the Tables
 
+```sql
+# flaskr/schema.sql
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS post;
+
+CREATE TABLE user (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT UNIQUE NOT NULL,
+  password TEXT NOT NULL
+);
+
+CREATE TABLE post (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  author_id INTEGER NOT NULL,
+  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  title TEXT NOT NULL,
+  body TEXT NOT NULL,
+  FOREIGN KEY (author_id) REFERENCES user (id)
+);
+```
+
+```python
+# flaskr/db.py
+def init_db():
+    db = get_db()
+
+    with current_app.open_resource('schema.sql') as f:
+        db.executescript(f.read().decode('utf8'))
+
+
+@click.command('init-db')
+@with_appcontext
+def init_db_command():
+    """Clear the existing data and create new tables."""
+    init_db()
+    click.echo('Initialized the database.')
+```
+
+`open_resource()`package와 관련된 file을 읽습니다. `get_db`로 database의 connection을 사용하여 file부터 읽은 sql command를 실행합니다.
+
+`click.command()`command line을 정의합니다.
+
+## Register with the Application
+
+```python
+# flaskr/db.py
+def init_app(app):
+    app.teardown_appcontext(close_db)
+    app.cli.add_command(init_db_command)
+```
+
+`app.teardown_appcontext()`은 response를 반환하고나서 clean up을 할 때 호출됩니다.
+
+`app.cli.add_command()`새로운 command를 추가할 때 사용합니다. flask command와 함께 사용가능하게 합니다.
+
+```python
+# flaskr/__init__.py
+def create_app():
+    app = ...
+    # existing code omitted
+
+    from . import db
+    db.init_app(app)
+
+    return app
+```
+
+## Initialize the Database File
+
+```bash
+export FLASK_APP=flaskr
+export FLASK_ENV=development
+
+flask init-db
+```
+

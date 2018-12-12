@@ -136,7 +136,6 @@ author: yogae
 
 - partition key와 range key를 사용하고range key를 sorting을 위하여 time으로 설정하는 경우 문제점
   - delete 시 partition key와 range key 모두 알아야만 항목을 제거할 수 있음
-- 
 
 ## 8. 참고
 
@@ -144,3 +143,7 @@ author: yogae
 - [효과적으로 파티션 키를 설계해 사용하는 모범 사례](https://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/bp-partition-key-design.html)
 - [요금](https://aws.amazon.com/ko/dynamodb/pricing/)
   - 월별로 소비한 최초 25GB는 무료이며 이후 이 가격은 월 단위로 GB당 0.25 USD부터 과금됩니다.
+- [on-demand 기능 출시](https://aws.amazon.com/ko/blogs/korea/amazon-dynamodb-on-demand-no-capacity-planning-and-pay-per-request-pricing/)
+  - 새로운 애플리케이션 또는 데이터베이스 워크로드를 예측하기 까다로운 애플리케이션
+  - 사용량에 따라 요금을 지불하는 서버리스 스택을 작업 중인 개발자
+  - 구독자별로 테이블을 배포하는 데 있어서 단순성과 리소스 분리를 원하는 SaaS 제공업체 및 ISV(Independent Software Vendor)
