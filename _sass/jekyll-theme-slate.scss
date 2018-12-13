@@ -256,7 +256,7 @@ Full-Width Styles
 *******************************************************************************/
 
 .outer {
-  margin-left: 160px;
+  padding-left: 60px;
   width: 100%;
 }
 
@@ -283,12 +283,12 @@ Full-Width Styles
 }
 
 #header_wrap {
-  background: #212121;
-  background: -moz-linear-gradient(top, #373737, #212121);
-  background: -webkit-linear-gradient(top, #373737, #212121);
-  background: -ms-linear-gradient(top, #373737, #212121);
-  background: -o-linear-gradient(top, #373737, #212121);
-  background: linear-gradient(to top, #373737, #212121);
+  background: #f2f2f2;
+  // background: -moz-linear-gradient(top, #373737, #212121);
+  // background: -webkit-linear-gradient(top, #373737, #212121);
+  // background: -ms-linear-gradient(top, #373737, #212121);
+  // background: -o-linear-gradient(top, #373737, #212121);
+  // background: linear-gradient(to top, #373737, #212121);
 }
 
 #header_wrap .inner {
@@ -297,18 +297,17 @@ Full-Width Styles
 
 #project_title {
   margin: 0;
-  color: #fff;
+  color: rgb(196, 148, 164);
   font-size: 42px;
   font-weight: 700;
-  text-shadow: #111 0px 0px 10px;
+  text-shadow: #111 0px 0px 1px;
 }
 
 #project_tagline {
-  color: #fff;
+  color: rgb(82, 189, 171);
   font-size: 24px;
   font-weight: 300;
   background: none;
-  text-shadow: #111 0px 0px 10px;
 }
 
 #downloads {
@@ -481,28 +480,65 @@ Small Device Styles
 // #######
 // sidebar
 // #######
-.sidenav {
-  height: 100%;
+
+.nav-fa-text.open {
+  display: inline;
+}
+
+.nav-fa-text.close {
+  display: none;
+}
+
+.sidenav.open {
   width: 160px;
+}
+
+.sidenav.close {
+  width: 50px;
+}
+
+.sidenav{
+  height: 100%;
   position: fixed;
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: #111;
+  background: #726177;
   overflow-x: hidden;
   padding-top: 20px;
+}
+
+.fa-bars {
+  color: #f1f1f1;
+}
+
+.sidenav .navbars {
+  margin-left: 20px;
+}
+
+#navbars{
+  cursor: pointer;
+}
+
+#navbars:hover{
+  color: #0090ff;
 }
 
 .sidenav a {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 25px;
-  color: #818181;
+  font-size: 18px;
+  color: #f1f1f1;
   display: block;
+  margin-top: 15px;
+}
+
+.sidenav a i {
+  margin-right: 5px;
 }
 
 .sidenav a:hover {
-  color: #f1f1f1;
+  color: #818181;
 }
 
 
@@ -525,6 +561,81 @@ Small Device Styles
 
 .select {
     background: #aaaaaa;
+}
+
+// ########
+// blog.html
+// ########
+
+.blog-post {
+  text-align: left;
+  padding: 0px;
+  margin-top: 15px;
+  height: 120px;
+  border-bottom: #ddd;
+  border-bottom-style: dashed;
+  border-bottom-width: 1px;
+}
+
+.blog-post-add {
+  text-align: left;
+  padding: 0px;
+  margin-top: 15px;
+  height: 120px;
+  border-bottom: #ddd;
+  border-bottom-style: dashed;
+  border-bottom-width: 1px;
+}
+
+.blog-date {
+  display: inline-block;
+  width: 100px;
+}
+
+.blog-dayoftheweek, .blog-day {
+  display: table;
+  margin: 5px;
+}
+
+.blog-weekday {
+  color: #aaa;
+}
+
+.blog-weekend {
+  color: rgb(247, 146, 146);
+}
+
+.blog-content {
+  display: inline-block;
+}
+
+.blog-content .blog-content-row{
+  display: block;
+  margin-bottom: 5px;
+}
+
+.blog-categories{
+  display: inline;
+}
+
+.blog-title {
+  display: inline;
+}
+
+.blog-post a{
+  color: #222222;
+}
+
+.category-icon {
+  margin-right: 1px;
+}
+
+.blog-category {
+  display: inline;
+  border: 2px solid gray;
+  padding: 2px;
+  border-radius: 5px;
+  margin-right: 5px;
 }
 
 .git-custom {
@@ -556,15 +667,7 @@ Small Device Styles
 
 .profile-title {
     display: inline;
-    position: absolute;
+    position: relative;
     padding-left: 20px;
     padding-top: 5px;
-}
-
-.blog-category {
-  display: inline;
-  color: #ff6666;
-  border: 2px solid gray;
-  padding: 2px;
-  border-radius: 5px;
 }

@@ -2,10 +2,14 @@
 layout: default
 title: Category
 ---
-<ul>
-  {% for category in site.categories %}
-    <li>
-        <h2><a href="{{ category.url }}">{{ category.name }}</a></h2>
-    </li>
+{% for category in site.categories %}
+  <div>
+      <h2>{{ category.name }}</h2>
+  </div>
+  {% assign filtered_posts = site.posts | where: 'categories', category.name %}
+  {% for post in filtered_posts %}
+  <ul>
+    <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+  </ul>
   {% endfor %}
-</ul>
+{% endfor %}

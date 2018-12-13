@@ -1,5 +1,27 @@
-<div class="sidenav">
-{% for item in site.data.navigation %}
-<a {% if page.url == item.link %} class="select" {% endif %} href="{{ item.link }}">{{ item.name }}</a>
-{% endfor %}
+<div class="sidenav close">
+    <i id="navbars" class="fas fa-bars navbars" onclick="navbarsClick()"></i>
+    <a {% if page.url == item.link %} class="select" {% endif %} href="/"><i class="fas fa-home"></i><p class="nav-fa-text close">HOME</p></a>
+    <a {% if page.url == item.link %} class="select" {% endif %} href="/plan.html"><i class="far fa-calendar-check"></i><p class="nav-fa-text close">PLAN</p></a>
+    <a {% if page.url == item.link %} class="select" {% endif %} href="/blog.html"><i class="fas fa-edit"></i><p class="nav-fa-text close">BLOG</p></a>
+    <a {% if page.url == item.link %} class="select" {% endif %} href="/category.html"><i class="fas fa-tags"></i><p class="nav-fa-text close">CATEGORY</p></a>
+    <a {% if page.url == item.link %} class="select" {% endif %} href="/staff.html"><i class="fas fa-users"></i><p class="nav-fa-text close">STAFF</p></a>
 </div>
+
+<script>
+var opened = false;
+function navbarsClick () {
+    if (opened) {
+        $(".sidenav").addClass("close");
+        $(".nav-fa-text").addClass("close");
+        $(".sidenav").removeClass("open");
+        $(".nav-fa-text").removeClass("open");
+        opened = false;
+    } else {
+        $(".sidenav").addClass("open");
+        $(".nav-fa-text").addClass("open");
+        $(".sidenav").removeClass("close");
+        $(".nav-fa-text").removeClass("close");
+        opened = true;
+    }
+}
+</script>
