@@ -42,3 +42,116 @@ def create_app():
     return app
 ```
 
+## The First View: Register
+
+```python
+# flaskr/auth.py
+@bp.route('/register', methods=('GET', 'POST'))
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        db = get_db()
+        error = None
+
+        if not username:
+            error = 'Username is required.'
+        elif not password:
+            error = 'Password is required.'
+        elif db.execute(
+            'SELECT id FROM user WHERE username = ?', (username,)
+        ).fetchone() is not None:
+            error = 'User {} is already registered.'.format(username)
+
+        if error is None:
+            db.execute(
+                'INSERT INTO user (username, password) VALUES (?, ?)',
+                (username, generate_password_hash(password))
+            )
+            db.commit()
+            return redirect(url_for('auth.login'))
+
+        flash(error)
+
+    return render_template('auth/register.html')
+```
+
+- `@bp.route`은 URL `/register`에 register view function을 연결합니다.`/auth/register`request를 받았을 때 register view function을 호출합니다.
+- `request.form`은 summit된 form key와 value를 mapping하는 특별한 dict type입니다.
+
+- `fetchone()` query한 하나의 row를 반환합니다.
+- `url_for()`url를 생성합니다.
+
+## Login
+
+```python
+# flaskr/auth.py
+@bp.route('/login', methods=('GET', 'POST'))
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        db = get_db()
+        error = None
+        user = db.execute(
+            'SELECT * FROM user WHERE username = ?', (username,)
+        ).fetchone()
+
+        if user is None:
+            error = 'Incorrect username.'
+        elif not check_password_hash(user['password'], password):
+            error = 'Incorrect password.'
+
+        if error is None:
+            session.clear()
+            session['user_id'] = user['id']
+            return redirect(url_for('index'))
+
+        flash(error)
+
+    return render_template('auth/login.html')
+```
+
+- `session`은 request통해 data를 저장하는 dict입니다. user의 id는 새로운 session에 저장됩니다.  User 정보는 browser에 보내지는 cookie에 저장되고 browser는 이후의 request에 이 정보를 실어서 보냅니다.
+
+```python
+# flaskr/auth.py
+@bp.before_app_request
+def load_logged_in_user():
+    user_id = session.get('user_id')
+
+    if user_id is None:
+        g.user = None
+    else:
+        g.user = get_db().execute(
+            'SELECT * FROM user WHERE id = ?', (user_id,)
+        ).fetchone()
+```
+
+`bp.before_app_request()`는 view function전에 실행하는 function을 등록합니다.
+
+## Logout
+
+```python
+# flaskr/auth.py
+@bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
+```
+
+## Require Authentication in Other Views
+
+```python
+# flaskr/auth.py
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+
+        return view(**kwargs)
+
+    return wrapped_view
+```
+

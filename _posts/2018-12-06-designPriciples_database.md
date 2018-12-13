@@ -89,3 +89,28 @@ Amazon Redshift는 data warehouse cluster의 신뢰성을 높이기 위하여 �
 
 Amazon Redshift는 SQL 기반의 관계형 database 관리 system이기 때문에 다른 RDBMS application과 business intelligence tool과 호환가능 합니다. Amazon Redshift RDBMS의 online transaction processing(OLTP) 기능을 포함하는 전형적인 기능을 제공하지만 이러한 처리를 위하여 고안되지 않았습니다. 적은 record를 가지는 모든 column을 읽고 쓰기하는 고성능 동시성 처리를 기대한다면 Amazon RDS 또는 Amazon DynamoDB를 사용을 고려해야 합니다.
 
+## Search
+
+search는 query와 종종 혼동이 됩니다. query는 특정 data set에 정식 용어로 다루어지는 database query입니다. search는 정확하게 구조화된지 않은 dataset이 query 되어질 수 있게 합니다. 이러하 이유로 복잡한 search 기능을 요구하는 application에서는 관계형과 NoSQL database를 일반적으로 능가할 것입니다. search service는 index하기 위해 사용되고 구조화거나 자유로한 text format search합니다. 맞춤형 결과 순위, 필터링, 동의어 및 형태소 분석을 위한 facegting과 같은 다른 database에서 할 수 없는 기능을 지원합니다.
+
+AWS에서는 Amazon CloudSearch와 Amazon Elasticsearch Service(Amazon ES) 중에 고를 수 있습니다. Amazon CloudSearch는 적은 configuration을 필요로하고 자동으로 확장하는 관리형 service입니다. Amazon ES는 open-source API를 제공하고 configuration 세부 사항을 더 많이 제어할 수 있습니다. Amazon ES는 단순한 검색 solution 이상으로 진화했습니다. 로그 분석, 실시간 application monitoring, click stream 분석과 같은 분석 engine으로써 사용됩니다.
+
+### Scalability
+
+Amazon CloudSearch와 Amazon ES 모두 data partitioning과 horizontally 확장을 위한 replication을 사용합니다. 다른 점은 Amazon CloudSearch는 얼마나 많은 partition과 replica가 필요한지 신경쓸 필요가 없습니다.
+
+### High Availability
+
+Amazon CloudSearch와 Amazon ES는 Availability Zone에 걸쳐 data를 중복으로 저장하는 기능을 제공합니다.
+
+## Graph Database
+
+Graph Database는 query를 위해 graph structure를 사용합니다. graph는 edge(relationship)로 구성되고 edge는 node와 직접 연관됩니다. relationthip은 data가 함께 연결되도록 합니다. 복잡한 계층구조의 관계형 system에서 빠른 검색을 할 수 있도록 합니다. 이러한 이유로 graph database는 의도적으로 저장하도록 설계되고 relationship을 탐색합니다. 일반적으로 data와 빠른 query 사이의 relationship를 만들 필요가 있는 social networking, 추천 엔진, 사기 탐지와 같은 곳에 사용됩니다. Amazon Neptune 완전 관리형 graph database service입니다.
+
+### Scalability
+
+Amazon Neptune은 graph query를 처리하기 위해 최적화 된 고성능의 graph database입니다.
+
+### High Availability
+
+Amazon Neptune은 읽기 복제본, 특정 시점 복구, Amazon S3에 대한 지속적인 백업 및 가용성 영역의 복제를 통해 가용성이 높습니다. Neptune은 안전합니다. 전송 중 암호화를 지원합니다.
