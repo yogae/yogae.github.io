@@ -1,8 +1,8 @@
 <div class="sidenav close">
     <i id="navbars" class="fas fa-bars navbars" onclick="navbarsClick()"></i>
     <a {% if page.url == item.link %} class="select" {% endif %} href="/"><i class="fas fa-home"></i><p class="nav-fa-text close">HOME</p></a>
+    {% comment %} <a {% if page.url == item.link %} class="select" {% endif %} href="/blog.html"><i class="fas fa-edit"></i><p class="nav-fa-text close">BLOG</p></a> {% endcomment %}
     <a {% if page.url == item.link %} class="select" {% endif %} href="/plan.html"><i class="far fa-calendar-check"></i><p class="nav-fa-text close">PLAN</p></a>
-    <a {% if page.url == item.link %} class="select" {% endif %} href="/blog.html"><i class="fas fa-edit"></i><p class="nav-fa-text close">BLOG</p></a>
     <a {% if page.url == item.link %} class="select" {% endif %} href="/category.html"><i class="fas fa-tags"></i><p class="nav-fa-text close">CATEGORY</p></a>
     <a {% if page.url == item.link %} class="select" {% endif %} href="/staff.html"><i class="fas fa-users"></i><p class="nav-fa-text close">STAFF</p></a>
 </div>

@@ -255,8 +255,11 @@ form {
 Full-Width Styles
 *******************************************************************************/
 
+.body-content {
+  margin-left: 50px;
+}
+
 .outer {
-  padding-left: 60px;
   width: 100%;
 }
 
@@ -571,7 +574,7 @@ Small Device Styles
   text-align: left;
   padding: 0px;
   margin-top: 15px;
-  height: 120px;
+  min-height: 120px;
   border-bottom: #ddd;
   border-bottom-style: dashed;
   border-bottom-width: 1px;
@@ -581,7 +584,7 @@ Small Device Styles
   text-align: left;
   padding: 0px;
   margin-top: 15px;
-  height: 120px;
+  min-height: 120px;
   border-bottom: #ddd;
   border-bottom-style: dashed;
   border-bottom-width: 1px;

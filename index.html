@@ -1,0 +1,122 @@
+---
+layout: default
+title: Blog
+---
+<h2>Daily Diary</h2>
+
+<div id="diary">
+  {% for post in site.posts %}
+    <div class="blog-post">
+        <div class="blog-date">
+          <p class="value-date" style="display: none;">{{ post.date | date: "%Y-%m-%d"}}</p>
+          {% assign dayoftheweek = post.date | date: "%A" %}
+          {% if dayoftheweek == "Sunday" or dayoftheweek == "Saturday" %}
+            <p class="blog-dayoftheweek blog-weekend" >{{ dayoftheweek }}</p>
+          {% else %}
+            <p class="blog-dayoftheweek blog-weekday" >{{ dayoftheweek }}</p>
+          {% endif %}
+          <p class="blog-day">{{ post.date | date: "%d"}}</p>
+        </div>
+        {% assign category = post.categories | split: ' ' | uniq %}
+        <div class="blog-content">
+          <a class="blog-content-row" href="{{ post.url }}">
+            <p class="blog-categories">{{ category }}</p>
+            <p class="blog-title">{{ post.title }}</p>
+          </a>
+        </div>
+    </div>
+  {% endfor %}
+</div>
+
+<script>
+let startDate = '2018-11-20';
+function formatDate(date, addDay) {
+  const d = new Date(date);
+  d.setDate((d.getDate() + addDay));
+  let month = '' + (d.getMonth() + 1);
+  let day = '' + d.getDate();
+  let year = d.getFullYear();
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+  return [year, month, day].join('-');
+};
+
+function getWeek(date) {
+  var d = new Date(date);
+  var weekday = new Array(7);
+  weekday[0] = "Sunday";
+  weekday[1] = "Monday";
+  weekday[2] = "Tuesday";
+  weekday[3] = "Wednesday";
+  weekday[4] = "Thursday";
+  weekday[5] = "Friday";
+  weekday[6] = "Saturday";
+  return weekday[d.getDay()];
+}
+
+function getTagForm(date) {
+  const dateArray = date.split('-');
+  const week = getWeek(date);
+  const dayColorClass = week === "Sunday" || week === "Saturday" ? 'blog-weekend' : 'blog-weekday';
+  const tag = 
+      "<div class=\"blog-post\">"
+      + "<div class=\"blog-date\">"
+      + `<p class=\"blog-dayoftheweek  ${dayColorClass}\" >${week}</p>`
+      + `<p class=\"blog-day\">${dateArray[2]}</p>`
+      + "</div>"
+      + "</div>";
+  return tag;
+}
+
+function diffDate (preDate, compareDate) {
+  // TODO: 다른 종류의 콘텐츠를 추가할 경우
+
+  // 날짜가 중복되는 경우
+  if (preDate === compareDate) {
+    $(this).children(".blog-content").append($(this).next().remove().children(".blog-content").children("a"));
+  } else {
+    // post 날짜 중간이 비는 날짜가 있는 경우
+    const oneDayBeforeDate = formatDate(preDate, -1);
+    if (oneDayBeforeDate !== compareDate) {
+      const appened = $(this).after(getTagForm(oneDayBeforeDate));
+      diffDate.call($(this).next(), oneDayBeforeDate, compareDate);
+    }
+  }
+}
+
+let previousDate;
+$(".blog-post").each(function (idx, val) {
+  const self = this;
+  const date = $(this).find(".value-date").text();
+  if (idx !== 0) {
+    diffDate.call($(self).prev(), previousDate, date);
+  }
+  previousDate = date;
+});
+{% comment %} $("#blog-post"). {% endcomment %}
+function makeIconTag (color, text, iconClass) {
+  const style = `style=\"color: ${color}\"`
+  const iconTag = `<i class=\"${iconClass}\"></i>`
+  const pTag = `<p class=\"blog-category\" ${style}>${iconTag}${text}<\/p>`
+  return pTag;
+}
+const iconMap = new Map();
+$(".blog-categories").each(function (item, element) {
+  const self = this;
+  iconMap.set("Python", makeIconTag('#0090ff', 'Python', 'fab fa-python category-icon'));
+  iconMap.set("SAA", makeIconTag('rgb(182, 59, 59)', 'SAA', 'fas fa-certificate'));
+  iconMap.set("MongoDB", makeIconTag('rgb(79, 187, 69)', 'MongoDB', 'fab fa-envira'));
+  iconMap.set("Terraform", makeIconTag('gray', 'Terraform', 'fas fa-cogs'));
+  iconMap.set("NodeJS", makeIconTag('green', 'NodeJS', 'fab fa-node-js'));
+  iconMap.set("AWS", makeIconTag('#ff9900', 'AWS', 'fab fa-aws'));
+
+  const category = $(this).text();
+  const result = JSON.parse(category);
+  $(self).empty();
+  result.map((oneCategory) => {
+    const prependTag = iconMap.get(oneCategory);
+    $(self).prepend(prependTag);
+  });
+  
+})
+</script>
