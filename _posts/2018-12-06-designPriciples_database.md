@@ -91,7 +91,7 @@ Amazon Redshift는 SQL 기반의 관계형 database 관리 system이기 때문�
 
 ## Search
 
-search는 query와 종종 혼동이 됩니다. query는 특정 data set에 정식 용어로 다루어지는 database query입니다. search는 정확하게 구조화된지 않은 dataset이 query 되어질 수 있게 합니다. 이러하 이유로 복잡한 search 기능을 요구하는 application에서는 관계형과 NoSQL database를 일반적으로 능가할 것입니다. search service는 index하기 위해 사용되고 구조화거나 자유로한 text format search합니다. 맞춤형 결과 순위, 필터링, 동의어 및 형태소 분석을 위한 facegting과 같은 다른 database에서 할 수 없는 기능을 지원합니다.
+search는 query와 종종 혼동이 됩니다. query는 특정 data set에 정식 용어로 다루어지는 database query입니다. search는 정확하게 구조화된지 않은 dataset이 query 되어질 수 있게 합니다. 이러하 이유로 복잡한 search 기능을 요구하는 application에서는 관계형과 NoSQL database를 일반적으로 능가할 것입니다. search service는 index하기 위해 사용되고 구조화거나 자유로한 text format search합니다. 맞춤형 결과 순위, 필터링, 동의어 및 형태소 분석을 위한 facegting과 같은 다른 database에서 할 수 없는 기능을 지원합니다.
 
 AWS에서는 Amazon CloudSearch와 Amazon Elasticsearch Service(Amazon ES) 중에 고를 수 있습니다. Amazon CloudSearch는 적은 configuration을 필요로하고 자동으로 확장하는 관리형 service입니다. Amazon ES는 open-source API를 제공하고 configuration 세부 사항을 더 많이 제어할 수 있습니다. Amazon ES는 단순한 검색 solution 이상으로 진화했습니다. 로그 분석, 실시간 application monitoring, click stream 분석과 같은 분석 engine으로써 사용됩니다.
 
