@@ -3,6 +3,26 @@ layout: default
 title: About
 ---
 
+## 개발
+- [ ] python을 확용한 간단한 application 구성 - python(flask, zappa)활용
+    - 구성
+        - 
+- [ ] log 분석기 - elastic search, python 사용하여 구성
+    - 순서
+        1. cron형식으로 lambda 실행하여 log(CloudWatch) 분석 및 ETL 실행
+        2. 저장된 log data를 볼수 있는 api 구성
+        3. web application에서 api 호출로 log 정보 viewing
+    - 구성
+        - aws-sdk(cloud watch) insight를 사용하여 metric 분석 확인
+        - ETL 작업
+            - lambda python(직접 작업), Logstash, AWS glue
+        - ETL 작업이후 저장할 위치
+            - Elastic Search, CloudSearch, Amazon ElasticSearch 확인
+        - Viewing
+            - D3.js 직접 구성, Amazon QuickSight, Kibana
+            - mongoDB connection 확인 방법 
+- [ ] 행동분석 모델링 - merchine learning활용
+
 ## TODO
 - [ ] Kubernetes
 - [ ] Elastic Search
