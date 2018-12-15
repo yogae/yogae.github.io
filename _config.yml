@@ -7,11 +7,18 @@ collections:
     output: true
   categories:
     output: true
+  dates:
+    output: true
 theme: jekyll-theme-slate
 defaults:
   - scope:
       path: ""
       type: "categories"
+    values:
+      layout: "category"
+  - scope:
+      path: ""
+      type: "dates"
     values:
       layout: "category"
   - scope:

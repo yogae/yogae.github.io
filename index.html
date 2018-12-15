@@ -3,27 +3,26 @@ layout: default
 title: Blog
 ---
 <h2>Daily Diary</h2>
-
 <div id="diary">
   {% for post in site.posts %}
     <div class="blog-post">
-        <div class="blog-date">
-          <p class="value-date" style="display: none;">{{ post.date | date: "%Y-%m-%d"}}</p>
-          {% assign dayoftheweek = post.date | date: "%A" %}
-          {% if dayoftheweek == "Sunday" or dayoftheweek == "Saturday" %}
-            <p class="blog-dayoftheweek blog-weekend" >{{ dayoftheweek }}</p>
-          {% else %}
-            <p class="blog-dayoftheweek blog-weekday" >{{ dayoftheweek }}</p>
-          {% endif %}
-          <p class="blog-day">{{ post.date | date: "%d"}}</p>
-        </div>
-        {% assign category = post.categories | split: ' ' | uniq %}
-        <div class="blog-content">
-          <a class="blog-content-row" href="{{ post.url }}">
-            <p class="blog-categories">{{ category }}</p>
-            <p class="blog-title">{{ post.title }}</p>
-          </a>
-        </div>
+      <div class="blog-date">
+        <p class="value-date" style="display: none;">{{ post.date | date: "%Y-%m-%d"}}</p>
+        <p class="blog-day">{{ post.date | date: "%b %d"}}</p>
+        {% assign dayoftheweek = post.date | date: "%A" %}
+        {% if dayoftheweek == "Sunday" or dayoftheweek == "Saturday" %}
+          <p class="blog-dayoftheweek blog-weekend" >{{ dayoftheweek }}</p>
+        {% else %}
+          <p class="blog-dayoftheweek blog-weekday" >{{ dayoftheweek }}</p>
+        {% endif %}
+      </div>
+      {% assign category = post.categories | split: ' ' | uniq %}
+      <div class="blog-content">
+        <a class="blog-content-row" href="{{ post.url }}">
+          <p class="blog-categories">{{ category }}</p>
+          <p class="blog-title">{{ post.title }}</p>
+        </a>
+      </div>
     </div>
   {% endfor %}
 </div>
@@ -54,6 +53,24 @@ function getWeek(date) {
   return weekday[d.getDay()];
 }
 
+function getMonth(num) {
+  var d = new Date();
+  var month = new Array();
+  month[0] = "Jan";
+  month[1] = "Feb";
+  month[2] = "Mar";
+  month[3] = "Apr";
+  month[4] = "May";
+  month[5] = "Jun";
+  month[6] = "Jul";
+  month[7] = "Aug";
+  month[8] = "Sep";
+  month[9] = "Oct";
+  month[10] = "Nov";
+  month[11] = "Dec";
+  return month[num];
+}
+
 function getTagForm(date) {
   const dateArray = date.split('-');
   const week = getWeek(date);
@@ -61,8 +78,8 @@ function getTagForm(date) {
   const tag = 
       "<div class=\"blog-post\">"
       + "<div class=\"blog-date\">"
+      + `<p class=\"blog-day\">${getMonth(dateArray[1] - 1)} ${dateArray[2]} </p>`
       + `<p class=\"blog-dayoftheweek  ${dayColorClass}\" >${week}</p>`
-      + `<p class=\"blog-day\">${dateArray[2]}</p>`
       + "</div>"
       + "</div>";
   return tag;

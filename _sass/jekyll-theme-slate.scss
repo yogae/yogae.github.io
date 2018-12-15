@@ -609,7 +609,10 @@ Small Device Styles
 }
 
 .blog-content {
+  position: relative;
   display: inline-block;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .blog-content .blog-content-row{
