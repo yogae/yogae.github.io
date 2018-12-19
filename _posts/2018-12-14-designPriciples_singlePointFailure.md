@@ -52,7 +52,5 @@ Data storage model에 맞는 각각의 기술이 어디에 사용되는지 이�
 
 ## Automated Multi-Data Center Resilience
 
-
-
 ## Fault Isolation and Traditional Horizontal Scaling
 
