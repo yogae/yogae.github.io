@@ -47,9 +47,10 @@ title: About
     - [ ] [AWS Security Best Practices](https://d1.awsstatic.com/whitepapers/Security/AWS_Security_Best_Practices.pdf)
     - [ ] [AWS Storage Services Overview](https://d1.awsstatic.com/whitepapers/Storage/AWS%20Storage%20Services%20Whitepaper-v9.pdf)
     - [ ] Q & A
+- [ ] Elastic Search
 - [ ] Python
     - [x] django - 파이썬 웹프로그래밍 
-    - [ ] [flask](http://flask.pocoo.org/docs/1.0/) (진행중)
+    - [x] [flask](http://flask.pocoo.org/docs/1.0/)
     - [ ] zappa
 
 ## Done
