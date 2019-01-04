@@ -111,9 +111,9 @@ $(".blog-post").each(function (idx, val) {
   previousDate = date;
 });
 {% comment %} $("#blog-post"). {% endcomment %}
-function makeIconTag (color, text, iconClass) {
+function makeIconTag (color, text, iconClass, imageSrc) {
   const style = `style=\"color: ${color}\"`
-  const iconTag = `<i class=\"${iconClass}\"></i>`
+  const iconTag = iconClass ? `<i class=\"${iconClass}\"></i>` : `<img src= \"./assets/images/${imageSrc}\" style=\"width: 100px; margin: -40px\"/>`
   const pTag = `<p class=\"blog-category\" ${style}>${iconTag}${text}<\/p>`
   return pTag;
 }
@@ -126,6 +126,7 @@ $(".blog-categories").each(function (item, element) {
   iconMap.set("Terraform", makeIconTag('gray', 'Terraform', 'fas fa-cogs'));
   iconMap.set("NodeJS", makeIconTag('green', 'NodeJS', 'fab fa-node-js'));
   iconMap.set("AWS", makeIconTag('#ff9900', 'AWS', 'fab fa-aws'));
+  iconMap.set("ES", makeIconTag('#00CCCC', 'ES', undefined, 'elastic-cluster.png'));
 
   const category = $(this).text();
   const result = JSON.parse(category);
