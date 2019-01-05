@@ -4,26 +4,30 @@ title: Blog
 ---
 <h2>Daily Diary</h2>
 <div id="diary">
-  {% for post in site.posts %}
-    <div class="blog-post">
-      <div class="blog-date">
-        <p class="value-date" style="display: none;">{{ post.date | date: "%Y-%m-%d"}}</p>
-        <p class="blog-day">{{ post.date | date: "%b %d"}}</p>
-        {% assign dayoftheweek = post.date | date: "%A" %}
-        {% if dayoftheweek == "Sunday" or dayoftheweek == "Saturday" %}
-          <p class="blog-dayoftheweek blog-weekend" >{{ dayoftheweek }}</p>
-        {% else %}
-          <p class="blog-dayoftheweek blog-weekday" >{{ dayoftheweek }}</p>
-        {% endif %}
+  {% assign postsByYear = site.posts | group_by_exp:"post", "post.date | date: '%Y'"  %}
+  {% for year in postsByYear %}
+    <h3>{{ year.name }}</h3>
+    {% for post in year.items %}
+      <div class="blog-post">
+        <div class="blog-date">
+          <p class="value-date" style="display: none;">{{ post.date | date: "%Y-%m-%d"}}</p>
+          <p class="blog-day">{{ post.date | date: "%b %d"}}</p>
+          {% assign dayoftheweek = post.date | date: "%A" %}
+          {% if dayoftheweek == "Sunday" or dayoftheweek == "Saturday" %}
+            <p class="blog-dayoftheweek blog-weekend" >{{ dayoftheweek }}</p>
+          {% else %}
+            <p class="blog-dayoftheweek blog-weekday" >{{ dayoftheweek }}</p>
+          {% endif %}
+        </div>
+        {% assign category = post.categories | split: ' ' | uniq %}
+        <div class="blog-content">
+          <a class="blog-content-row" href="{{ post.url }}">
+            <p class="blog-categories">{{ category }}</p>
+            <p class="blog-title">{{ post.title }}</p>
+          </a>
+        </div>
       </div>
-      {% assign category = post.categories | split: ' ' | uniq %}
-      <div class="blog-content">
-        <a class="blog-content-row" href="{{ post.url }}">
-          <p class="blog-categories">{{ category }}</p>
-          <p class="blog-title">{{ post.title }}</p>
-        </a>
-      </div>
-    </div>
+    {% endfor %}
   {% endfor %}
 </div>
 
