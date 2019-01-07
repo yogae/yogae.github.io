@@ -60,3 +60,23 @@ query에 검색하여 모든 document를 제거하기 위해서는  [`_delete_by
 
 ## Batch Processing
 
+Elasticsearch는 index, update, delete와 같은 operation에 대하여 _bulk API를 사용하여 batch처리를 할 수 있습니다. 
+
+2개의 document를 생성합니다.
+
+```http
+POST /customer/_doc/_bulk?pretty
+{"index":{"_id":"1"}}
+{"name": "John Doe" }
+{"index":{"_id":"2"}}
+{"name": "Jane Doe" }
+```
+
+```http
+POST /customer/_doc/_bulk?pretty
+{"update":{"_id":"1"}}
+{"doc": { "name": "John Doe becomes Jane Doe" } }
+{"delete":{"_id":"2"}}
+```
+
+bulk API는 나의 action이 실패하여도 실패처리되지 않습니다. 하나의 action이 실패하면 나머지 action을 계속해서 처리합니다. Bulk API가 결과를 반환할 때 각각의 action에 상태를 제공합니다.
