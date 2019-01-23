@@ -76,3 +76,59 @@ date value 형식의 대부분의 parameter(gt와 lt같은 range quer, from과 t
 
 ## Response Filtering
 
+모든 REST APIS는 Elasticsearch에서 반환되는 response를 줄이기 위하여  `filter_path` parameter를 사용할 수 있습니다. 이 parameter는 `,` 으로 filter를 분리할 수 있습니다.
+
+```http
+GET /_search?q=elasticsearch&filter_path=took,hits.hits._id,hits.hits._score
+
+{
+  "took" : 3,
+  "hits" : {
+    "hits" : [
+      {
+        "_id" : "0",
+        "_score" : 1.6375021
+      }
+    ]
+  }
+}
+```
+
+`*` 를 사용할 수 있습니다.
+
+```http
+GET /_cluster/state?filter_path=metadata.indices.*.stat*
+
+{
+  "metadata" : {
+    "indices" : {
+      "twitter": {"state": "open"}
+    }
+  }
+}
+```
+
+`**` 는 field의 정확한 path를 알 수 없을 때 사용할 수 있습니다.
+
+```http
+GET /_cluster/state?filter_path=routing_table.indices.**.state
+
+{
+  "routing_table": {
+    "indices": {
+      "twitter": {
+        "shards": {
+          "0": [{"state": "STARTED"}, {"state": "UNASSIGNED"}],
+          "1": [{"state": "STARTED"}, {"state": "UNASSIGNED"}],
+          "2": [{"state": "STARTED"}, {"state": "UNASSIGNED"}],
+          "3": [{"state": "STARTED"}, {"state": "UNASSIGNED"}],
+          "4": [{"state": "STARTED"}, {"state": "UNASSIGNED"}]
+        }
+      }
+    }
+  }
+}
+```
+
+
+
