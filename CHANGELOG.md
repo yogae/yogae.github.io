@@ -2,7 +2,8 @@
 
 ## [v0.0.5](https://github.com/yogae/yogae.github.io/compare/v0.0.3...v0.0.4) - 2019-01-05
 
-## Fixed
+## Added
+- post 년도별로 분리
 
 ## [v0.0.4](https://github.com/yogae/yogae.github.io/compare/v0.0.3...v0.0.4) - 2018-11-29
 

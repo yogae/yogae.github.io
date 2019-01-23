@@ -26,4 +26,12 @@ server가 프로그램 가능한 reosource일 때 많은 보안 관련 혜택을
 
 ## Security as Code
 
+전통적인 보안 framework, regulations 그리고 organizational policies은 firewall rules, network access controls, internal/external subnets, 그리고 운영 체제 강화와 같은 것과 관련된 보안 요구사항을 정의합니다. 이러한 본안 관련 사항은 AWS 환경에서도 구현 가능합니다. Golden Eviroment를 정의하는 tempate에 이 모든 사항을 저장할 수 있습니다. 이 template은 AWS CloudFormation을 사용하고 보안 정책과 함께 resource를 배포합니다. 지속적인 통합 파이프 라인의 일부로 여러 프로젝트에서 보안 모범 사례를 재사용 할 수 있습니다. release cycle의 일부분으로 보안 검사를 수행할 수 있고 자동적으로 application의 보안 정책의 공백을 찾습니다.
+
+추가적으로 더 좋은 관리과 보안을 위하여 AWS CloudFormation template는 AWS Service Catalog에 제품으로 import할 수 있습니다. 이는 중앙집중적으로 resource를 관리하면서 사용자가 필요한 승인 된 IT 서비스 만 빠르게 배포 할 수 있습니다. IAM permission으로 누가 볼 수 있고 수정가능한지 적용할 수 있고 제약 조건을 정의하여 특정 AWS 리소스를 제품에 배포 할 수있는 방법을 제한합니다.
+
 ## Real-Time Auditing
+
+환경을 test하고 검사하는 것은 안전하면서도 빠르게 움직으는 데 중요합니다. 특히 변환가 일정한 기민한 환경에서는 주기적으로 확인하는 전통적인 방법은 충분하지 않습니다. AWS에서는 계속전인 monitoring을 구현할 수 있고 보안 위험의 노출을 최소화 하기위한 관리를 자동화할 수 있습니다. AWS Config, Amazon Inspector, and AWS Trusted Advisor와 같은 서비스는 지속적으로 규정 준수 또는 취약성을 monitor합니다. AWS Config 규칙을 사용하면 잠시라도 리소스가 준수되지 않았는지 알 수 있으므로 특정 시점 및 기간별 감사가 매우 효과적입니다. application과 AWS CloudTrail을 사용하여 실제 AWS API 호출에 대한 광범위한 로깅을 구현할 수 있습니다.
+
+AWS CloudTrail은 API 요청을 record하고 S3 bucket에 log file을 전달하는 web service입니다. log data는 변하지 않는 방법으로 저장되고 자동적으로 사용자를 대신하여 알림을 보내거나 조치를 취합니다.  unused permissions, privileged account overuse, key usage, anomalous logins, policy violations, and system abuse와 같은 event를 감지하기 위하여 AWS Lambda, Amazon EMR, Amazon ES, Amazon Athena, 또는 AWS Marketplace에서 third-party 도구를 사용하여 log data를 scan합니다.
