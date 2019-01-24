@@ -32,18 +32,17 @@ title: About
     - [ ] EKS
 - [ ] Webpack
 - [ ] GraphQL
-- [ ] Vue
-    - [x] 기본 사용
-    - [ ] Vuex
-- [ ] merchine learning
+- [ ] machine learning
     - [ ] TensorFlow
     - [ ] SageMaker
 - [ ] GCP
+- [ ] Node.js Framework
+  - [ ] Nest
 
 ## In Progress
 - [ ] SAA 시험 준비
     - [x] [Amazon Web Service 개요](https://d1.awsstatic.com/International/ko_KR/whitepapers/aws-overview.pdf)
-    - [ ] [Architecting for the Cloud](https://d1.awsstatic.com/whitepapers/AWS_Cloud_Best_Practices.pdf) (진행중)
+    - [x] [Architecting for the Cloud](https://d1.awsstatic.com/whitepapers/AWS_Cloud_Best_Practices.pdf) (진행중)
     - [ ] [AWS Security Best Practices](https://d1.awsstatic.com/whitepapers/Security/AWS_Security_Best_Practices.pdf)
     - [ ] [AWS Storage Services Overview](https://d1.awsstatic.com/whitepapers/Storage/AWS%20Storage%20Services%20Whitepaper-v9.pdf)
     - [ ] Q & A

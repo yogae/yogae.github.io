@@ -16,11 +16,17 @@ Elasticsearch 모든 indexing operaion은 routing을 사용하는 replication gr
 
 ### Failure handling
 
+primary 자체가 실패한 경우 primary를 hosting하는 node는 master에서 장애 발생 message를 보냅니다. 장애가 발한 Indexing operation은 replica 중에 하나가 새로운 primary가 되었다는 것을 master를 알리기 전까지 기다립니다. 그 이후 새로운 primary로 보내져 처리됩니다. master는 node의 상태를 모니터하고 primary node를 강등시킬 수도 있습니다. 
+
+primary에서 성공적으로 operation이 처리되면 replica shard에서 실행할 때 발생할 수 있는 실패를 처리해야합니다. replica에서 발생하는 오류이거나 network의 문제일 수 있습니다. 불변성을 유지하기 위하여 primary는 master에게 in-sync replica set에서 문제가 있는 shard를 제거하라는 메세지를 보냅니다. master는 system을 정상 상태로 복원하기 위해 다른 노드에 새 샤드 사본을 작성하도록 지시합니다.
+
+replica로 operation이 이동하는 동안 primary는 활동중인 primary인지 validate하기 위해 replica를 사용할 것입니다. primary가 network 문제가 발생하여 고립된다면(indexing operation은 받을 수 있으나 replica와 통신장애) 강들되었다는 것을 알기전까지 primary는 들어오는 indexing operation을 계속 처리합니다. 문제가 있는 primary에서 들어오는 operation은 replica에서 거부될 것 입니다. master에게 접근하여 더 이상 primary가 아니라는 것을 확인하고 operaion을 새로운 primary로 이동시킵니다.
+
 ## Basic read model
 
-###  Failure handling
+node가 read request를 받았을 때 node는 관련되 shard가 있는 node로 forwarding하고 response를 종합하고 client에게 응답하는 것을 책임집니다. 이러한 node를 **coordinating node**라고 합니다.
 
-## A few simple implications
+### Failure handling
 
-## Failures
+read reqeust에 응답을 실패했을 때, coordinating node는 같은 replication group에서 다른  복사본을 선택하고 그 복사본에 대신 search request를 보냅니다. 
 
