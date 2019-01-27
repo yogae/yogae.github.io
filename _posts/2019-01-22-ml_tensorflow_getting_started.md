@@ -49,6 +49,14 @@ with tf.Session() as sess:
 
 **참고:** 세션은 여러 시스템에 그래프 실행을 분산할 수 있습니다(프로그램이 분산 계산 프레임워크에서 실행된다고 가정). 자세한 정보는 [분산 텐서플로우](https://www.tensorflow.org/deploy/distributed)를 참조하세요.
 
+## High Level APIS
+
+- [Keras](https://www.tensorflow.org/guide/keras), TensorFlow's high-level API for building and training deep learning models.
+- [Eager Execution](https://www.tensorflow.org/guide/eager), an API for writing TensorFlow code imperatively, like you would use Numpy.
+- [Importing Data](https://www.tensorflow.org/guide/datasets), easy input pipelines to bring your data into your TensorFlow program.
+- [Estimators](https://www.tensorflow.org/guide/estimators), a high-level API that provides fully-packaged models ready for large-scale training and production.
+
 ## Reference
 
 - https://colab.research.google.com/notebooks/mlcc/tensorflow_programming_concepts.ipynb?utm_source=mlcc&utm_campaign=colab-external&utm_medium=referral&utm_content=tfprogconcepts-colab&hl=ko#scrollTo=NzKsjX-ufyVY
+- https://www.tensorflow.org/guide
