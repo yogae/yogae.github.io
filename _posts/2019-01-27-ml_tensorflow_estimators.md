@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "TensorFlow - Estimators"
-date: 2019-01-22
+date: 2019-01-27
 categories: ML
 author: yogae
 ---
