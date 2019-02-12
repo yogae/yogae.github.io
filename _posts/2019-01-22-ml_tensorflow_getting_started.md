@@ -12,7 +12,7 @@ author: yogae
 
 ### 그래프
 
-텐서플로우 **그래프**(또는 **산출 그래프**나 **데이터플로 그래프**)는 그래프 데이터 구조입니다. 많은 텐서플로우 프로그램은 하나의 그래프로 구성되어 있지만, 텐서플로우 프로그램은 여러 그래프를 만들 수도 있습니다. 그래프의 노드는 연산이고; 그래프의 엣지는 텐서입니다. 텐서는 그래프를 따라 흐르고, 각 노드에서 연산에 의해 조작됩니다. 한 연산의 출력 텐서는 보통 다음 연산의 입력 텐서가 됩니다.
+텐서플로우 **그래프**(또는 **산출 그래프**나 **데이터플로 그래프**)는 그래프 데이터 구조입니다. 많은 텐서플로우 프로그램은 하나의 그래프로 구성되어 있지만, 텐서플로우 프로그램은 여러 그래프를 만들 수도 있습니다. 그래프의 노드는 연산이고 그래프의 엣지는 텐서입니다. 텐서는 그래프를 따라 흐르고, 각 노드에서 연산에 의해 조작됩니다. 한 연산의 출력 텐서는 보통 다음 연산의 입력 텐서가 됩니다.
 
 ### 텐서
 
@@ -56,7 +56,13 @@ with tf.Session() as sess:
 - [Importing Data](https://www.tensorflow.org/guide/datasets), easy input pipelines to bring your data into your TensorFlow program.
 - [Estimators](https://www.tensorflow.org/guide/estimators), a high-level API that provides fully-packaged models ready for large-scale training and production.
 
+## 그래프와 세션의 개념
+
+y = a + b라는 연산 식이 있다면 먼저 a + b 그래프를 정의하고 a, b값을 넣어서 session에서 그래프를 실행합니다. 
+
 ## Reference
 
 - https://colab.research.google.com/notebooks/mlcc/tensorflow_programming_concepts.ipynb?utm_source=mlcc&utm_campaign=colab-external&utm_medium=referral&utm_content=tfprogconcepts-colab&hl=ko#scrollTo=NzKsjX-ufyVY
 - https://www.tensorflow.org/guide
+
+- https://bcho.tistory.com/1150
