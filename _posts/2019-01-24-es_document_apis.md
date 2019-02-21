@@ -509,9 +509,9 @@ POST test/_doc/1/_update
 ```
 
 ### Parameters
-
-| `retry_on_conflict`      | In between the get and indexing phases of the update, it is possible that another process might have already updated the same document. By default, the update will fail with a version conflict exception. The `retry_on_conflict` parameter controls how many times to retry the update before finally throwing an exception. |
+| Parameters | description |
 | ------------------------ | ------------------------------------------------------------ |
+| `retry_on_conflict`      | In between the get and indexing phases of the update, it is possible that another process might have already updated the same document. By default, the update will fail with a version conflict exception. The `retry_on_conflict` parameter controls how many times to retry the update before finally throwing an exception. |
 | `routing`                | Routing is used to route the update request to the right shard and sets the routing for the upsert request if the document being updated doesn’t exist. Can’t be used to update the routing of an existing document. |
 | `timeout`                | Timeout waiting for a shard to become available.             |
 | `wait_for_active_shards` | The number of shard copies required to be active before proceeding with the update operation. See [here](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-index_.html#index-wait-for-active-shards) for details. |
@@ -867,4 +867,8 @@ GET /twitter/_doc/1/_termvectors?fields=message
 ```
 
 ### return values
+
+세가지 종류의 value를 요청할 수 있습니다: *term information*, *term statistics* and *field statistics*. default로 모든 term information과 field statistics는 모든 field에 반환되지만 term statistics는 반환되지 않습니다.
+
+> 참고: https://www.slideshare.net/dahlmoon/20160623
 
