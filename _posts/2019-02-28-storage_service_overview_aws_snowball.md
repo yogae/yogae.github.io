@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "AWS Storage Services Overview - AWS Snowball
+title:  "AWS Storage Services Overview - AWS Snowball"
 date: 2019-02-28
 categories: SAA
 author: yogae

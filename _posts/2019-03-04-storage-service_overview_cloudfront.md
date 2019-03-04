@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "AWS Storage Services Overview - AWS Snowball
+title:  "AWS Storage Services Overview - AWS CloudFront"
 date: 2019-03-04
 categories: SAA
 author: yogae
