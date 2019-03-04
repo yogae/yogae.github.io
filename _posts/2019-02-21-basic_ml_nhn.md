@@ -2,7 +2,7 @@
 
 ## TF 소개
 - Deep learning을 위한 프레임워크
-- google에서 만들고 유지 봇
+- google에서 만들고 유지 보수
 - 사용자가 많다.
     - 구글링이 용이함
     - 새로운 모델 구현 및 지원이 빠름
@@ -33,10 +33,10 @@
 
 - TF 구성
     - build graph
-        - graph를 생성 - 수식을 만들다.
+        - graph를 생성 - 수식을 만든다.
     - run graph
         - session에 graph로 만들어진 수식을 실행한다.
-        - 변수가 있는 경우 init해야하고 변수 값을 feed준다.
+        - 변수가 있는 경우 init해야하고 변수 값을 feed해준다.
 
 ## ML이란
 - 주어진 데이터를 잘 표현할 수 있는 모델을 찾고
@@ -45,7 +45,6 @@
 - Linear Regression
     - 직선 그래프
     - 예측 값과 실제 값의 차이(loss function) -> 차이 값을 적은 것이 좋은 모델
-    - 
 ```python
 import tensorflow as tf
 import numpy as np
@@ -386,9 +385,3 @@ for ep in range(EPOCHS):
         if st % 100 == 0:
             print '{} Epoch, {} Step : acc({:.4f}), loss({:.4f})'.format(ep, st, _acc, _loss)
 ```
-
-
-
-
-
-Full connect layers
