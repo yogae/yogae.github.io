@@ -30,6 +30,72 @@ elasticsearch가 지원하는 집계는 네가지 타입으로 구분할 수 있
 
 Bucket 집계는 컨텍스트에 있는 각 도큐먼트가 어떤 버킷에 속해 있는지 결정해 평가합니다. 개별 버킷 키와 버킷에 속하는 도큐먼트가 있는 버킷 집합을 갖습니다.
 
+- 문자열 데이터
+  - Terms 집계
+
+    특정 필드에서 고유한 값으로 데이터를 분할하거나 그룹화하는데 유용합니다.
+
+    ```http
+    GET bigginsight/userReport/_search
+    {
+        "aggs": {
+        	"byCategory": {
+                "terms": {
+                    "field": "category",
+                    "size": 15 # 반환될 Terms 버킷의 최대 개수
+                }
+        	}
+    	},
+    	"size": 0
+    }
+    ```
+
+- 숫자열 데이터
+  - Histogram 집계
+
+    데이터를 숫자 필드 기반의 여러 버킷으로 분할할 수 있습니다. 각 분할 범위는 쿼리 입력에 지정할 수 있습니다.
+
+    ```http
+    GET bigginsight/_search?size=0
+    {
+        "aggs": {
+        	"byUsage": {
+                "histogram": {
+                    "field": "usage",
+                    "interval": 1000 # bucket 분할 간격
+                }
+        	}
+    	},
+    	"size": 0
+    }
+    ```
+
+  - Range 집계
+
+    크기가 다른 버킷을 만들 수 있습니다.
+
+    ```http
+    GET bigginsight/_search?size=0
+    {
+        "aggs": {
+        	"byUsage": {
+                "range": {
+                    "field": "usage",
+                    "ranges": [
+                        { "to": 1024 },
+                        { "from": 1024, "to": 102400 },
+                        { "from": 102400 }
+                        # { "key": "a", "to": 1024 },
+                        # { "key": "b", "from": 1024, "to": 102400 },
+                        # { "key": "c", "from": 102400 },
+                    ]
+                }
+        	}
+    	},
+    	"size": 0
+    }
+    ```
+
 ### Metric 집계
 
 필드에서 숫자 타닙으로 동작하며, 주어진 컨텍스트에서 숫자 필드의 집계값을 계산하는데 사용합니다.
@@ -66,6 +132,43 @@ Bucket 집계는 컨텍스트에 있는 각 도큐먼트가 어떤 버킷에 속
   }
   ```
 
+- Stats 집계
+
+  단일 요청에서 도큐먼트의 합계, 평균, 최소, 최대, 개수를 계산합니다.
+
+  extended_stats 집계는 stats 집계 결과에 추가 통계 정보를 더해 반환합니다.
+
+  ```http
+  GET bigginsight/_search
+  {
+      "aggregations": {
+      	"download_stats": {
+              "stats": {
+                  "field": "downloadTotal"
+              }
+      	}
+  	},
+  	"size": 0
+  }
+  ```
+
+- Cardinality 집계
+
+  특정 필드의 고유한 값의 개수를 찾는데 유용합니다. 예를 들어 주간, 원간 순 방문자수를 찾을 수 있습니다.
+
+  ```http
+  GET bigginsight/_search
+  {
+      "aggregations": {
+      	"unique_visitors": {
+              "cardinality": {
+                  "field": "username"
+              }
+      	}
+  	},
+  	"size": 0
+  }
+  ```
 
 ### Matrix 집계
 
@@ -73,4 +176,62 @@ Bucket 집계는 컨텍스트에 있는 각 도큐먼트가 어떤 버킷에 속
 
 ### Pipeline 집계
 
-다른 타입의 집계 결과를 다시 집계할 수 있는 상위 레벨의 집계입니다.  
+다른 타입의 집계 결과를 다시 집계할 수 있는 상위 레벨의 집계입니다. 
+
+## 복잡한 집계
+
+### 필터 데이터 집계
+
+집계를 적용하기 전에 일부 필터를 적용하는 작업을 적용할 수 있습니다.
+
+```http
+GET bigginsight/userReport/_search
+{
+	"query": {
+      	"term": {
+            "customer": "Linkedin"
+      	}  
+	},
+    "aggs": {
+    	"byCategory": {
+            "terms": {
+                "field": "category"
+            }
+    	}
+	},
+	"size": 0
+}
+```
+
+### 중첩 집계
+
+Bucket 집계 안에서 Metric 집계를 중첩해 사용하면 각 버킷 내에서 Metric 집계를 계산할 수 있습니다.
+
+```http
+GET bigginsight/userReport/_search
+{
+	"query": {
+		"bool": {
+            "must": [
+      			{ "term": { "customer": "Linkedin" }},
+                { "range": { "time": { "gte": 1000, "lte": "2000" }}}
+            ]
+		}
+	},
+    "aggs": {
+    	"byUsers": {
+            "terms": {
+                "field": "username",
+                "order": { "total_usage": "desc" }
+            }
+    	}
+    	"aggs": {
+            "total_usage": {
+                "sum": { "field": "usage" }
+            }
+    	}
+	},
+	"size": 0
+}
+```
+
