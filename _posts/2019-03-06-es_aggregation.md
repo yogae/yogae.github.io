@@ -235,3 +235,74 @@ GET bigginsight/userReport/_search
 }
 ```
 
+### Date Histgram 집계
+
+Date Histogram 집계를 사용해 날짜 필드에 버킷을 만들 수 있습니다.
+
+```http
+GET /bigginsight/useageReport/_search?size=0
+{
+    "aggs": {
+        "counts_over_time": {
+            "date_histogram": {
+                "field": "time",
+                "interval": "1d",
+                "time_zone": "+505:30" # timezone 설정
+            }
+        }
+    }
+}
+```
+
+### 지리 정보 데이터 버킷팅
+
+- Geo distance 집계
+
+  Geo distance 집계를 사용하면 거리에 대한 버킷을 만들 수 있습니다.
+
+  ```http
+  GET bigginsight/usageReport/_search?size=0
+  {
+    "aggs": {
+      "within_radius": {
+        "geo_distance": {
+          "field": "location",
+          "origin": {
+            "lat": "32.1212", "lon": "32.123223"
+          },
+          "ranges": [
+            {
+              "to": 5
+            }
+          ]
+        }
+      }
+    }
+  }
+  ```
+
+- GeoHash grid 집계
+  
+  GeoHash 시스템은 세계 지도를 다른 정밀도를 가진 직사각형 영역으로 구성된 격자무늬로 분리합니다.
+
+  ```http
+  {
+    "aggs": {
+      "geo_hash": {
+        "geohash_grid": {
+          "field": "location",
+          "precision": 7 # 1 ~ 12(낮을수록 더 넓은 지리학상의 영역을 나타냅니다.)
+        }
+      }
+    }
+  }
+  ```
+
+### Pipeline 집계
+
+다른 집계 결과를 토대로 다시 집계할 수 있습니다.
+
+- Parent Pipeline 집계: 다른 집계 안에 Pipeline 집계를 중첩해 사용
+- Sibling Pipeline 집계: Pipeline이 완료된 원본 집계의 형제로 사용
+
+
