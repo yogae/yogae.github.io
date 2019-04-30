@@ -52,7 +52,27 @@ kubectl scale job multi-batch-job --replicas 3 # 실행중인 job의 병렬 처�
 
 ## CronJob 생성
 
+특정 시간에 실행되거나 지정된 간격으로 반복적으로 실행이 필요한 경우
 
+```yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+ name: batch-cron-job
+spec:
+ schedule: "0,15,30,45 * * * *" # 매일 매시간 0, 15, 30, 45분에 실행
+ jobTemplate:
+  spec:
+   template:
+    metadata:
+     labels:
+      app: periodic-batch-job
+    spec:
+     restartPolicy: OnFailure
+     containers:
+     - name: main
+       image: luksa/batch-job
+```
 
 ## 잡 리소스 확인
 
