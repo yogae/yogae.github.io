@@ -183,4 +183,107 @@ spec:
   app: kubia
 ```
 
-#### 3. 인그레스 리소스 생성하기:
+#### 3. 인그레스 리소스 생성하기
+
+- 수십 가지 서비스에 액세스를 제공할 수 있습니다.
+- 인그레스 리소스를 작동시키려면 클러스터에서 인그레스 컨트롤러를 실행해야 합니다.
+
+```yaml
+apiVersion: extentions/v1
+kind: Ingress
+metadata:
+ name: kubia
+ spec:
+  rules:
+  - host: kubia.example.com # kubia.example.com 도메인 이름을 서비스로 매핑
+    http:
+     paths:
+     - path: /
+       backend:
+        serviceName: kubia-nodeport
+        serviceProt: 80
+```
+
+##### yaml 설정
+
+- 동일한 호스트 다른 서비스
+
+    ```yaml
+    ...
+    - host: kubia.example.com
+      http:
+       paths:
+       - path: /kubia
+         backend:
+          serviceName: kubia
+          servicePort: 80
+       - path: /bar
+         backend:
+          seviceName: bar
+          servicePort: 80
+    ```
+
+- 다른 호스트 다른 서비스
+
+    ```yaml
+    ...
+    spec:
+     rules:
+     - host: foo.example.com
+       http:
+        paths:
+        - path: /
+          backend:
+           serviceName: foo
+           serviceProt: 80
+     - host: bar.example.com
+       http:
+        paths:
+        - path: /
+          backend:
+           serviceName: bar
+           servicePort: 80
+    ```
+
+##### TLS 트래픽을 처리하기 위한 인그레스 설정
+
+TLS의 인증서는 secret이라는 쿠버네티스 리소스에 저장됩니다.
+
+```yaml
+kubectl create secret tls tls-secret --cert=<path/인증서.cert> --key=<path/키.key> # kubernetes secret 리소스 생성
+```
+
+```yaml
+apiVersion: extentions/v1
+kind: Ingress
+metadata:
+ name: kubia
+ spec:
+  tls:
+  - secretName: tls-secret
+    hosts: 
+    - kubia.example.com 
+  rules:
+  - host: kubia.example.com # kubia.example.com 도메인 이름을 서비스로 매핑
+    http:
+     paths:
+     - path: /
+       backend:
+        serviceName: kubia-nodeport
+        serviceProt: 80
+```
+
+- aws certificate manager 사용하기
+
+  ```yaml
+  kind: Ingress
+  metadata:
+    name: test-app
+    annotations:
+      zalando.org/aws-load-balancer-ssl-cert: <certificate ARN>
+  ...
+  ```
+
+> <https://kubernetes-on-aws.readthedocs.io/en/latest/user-guide/ingress.html>
+
+> 참고: [Kubernetes Ingress with AWS ALB Ingress Controller](https://aws.amazon.com/ko/blogs/opensource/kubernetes-ingress-aws-alb-ingress-controller/)
