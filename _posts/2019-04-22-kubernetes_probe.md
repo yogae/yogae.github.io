@@ -40,3 +40,27 @@ spec:
 kubectl logs mypod --provious # 이전 컨테이너가 종료된 이유를 log로 확인하기
 ```
 
+## Readiness Probe
+
+레디네스 프로브는 주기적으로 호출되고 틀적 포드가 클라이언트 요청이 수락 여부를 결정합니다. 컨테이너의 레디네스 프로브가 성공을 반환한다면 커테이너가 요청을 받아들일 준비가 됐다는 신호입니다.
+
+```yaml
+apiVersion: v1
+kind: ReplicationController
+...
+spec:
+ ...
+ template:
+  ...
+  spec:
+   contatiners:
+   - name: kubia
+     image: luksa/kubia
+     readinessProbe:
+      exec:
+       command:
+       - ls
+       - /var/ready
+  
+```
+
