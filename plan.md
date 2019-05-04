@@ -30,7 +30,7 @@ title: About
 
 ### 2019
 - [x] Elasticsearch - logz.io 사용
-- [x] log 분석기 - elastic search
+- [x] log 분석기 - Elasticsearch
 - [x] IoT MQTT(AWS) - Amplify
 - [x] AWS Certified Solution Achitect Associate
 
