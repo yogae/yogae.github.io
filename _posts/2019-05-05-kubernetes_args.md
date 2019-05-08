@@ -107,6 +107,8 @@ metadata:
 
 ### ConfigMap 볼륨 사용
 
+- 포드를 다시 만들거나 컨테이너를 다시 시작하지 않고도 설정을 업데이트할 수 있습니다.
+
 ```bash
 # 예시 file 설정
 mkdir configmap-files
@@ -119,7 +121,7 @@ echo "25" > configmap-files/sleep-interval
 kubectl create configmap fortune-config --from=configmap-files
 ```
 
-```
+```yaml
 # 파일로 마운트된 ConfigMap 사용
 apiVersion: v1
 kind: Pod
@@ -130,6 +132,9 @@ spec:
  - name: config
    configMap:
     name: fortune-config
+    # items: # 특정 파일만 선택할 경우
+    # - key: ngnix-config.conf
+    #   path: gzip.conf
  containers:
  - image: nginx:alpine
    name: web-server
@@ -137,8 +142,6 @@ spec:
    ...
    - name: config
      mountPath: /etc/ngnix/config.d
+     # subPath: <fileName> # 특정 파일만 mount할 때 사용
      readOnly: true
 ```
-
-
-
