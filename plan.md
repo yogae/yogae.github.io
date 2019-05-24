@@ -8,6 +8,8 @@ title: About
 - [ ] 행동분석 모델링
 
 ## TODO
+- [ ] Python for Data Analsis
+- [ ] 소프트웨어 개발과 테스트
 - [ ] AWS Certified Developer Associate
 - [ ] NGINX
 - [ ] TensorFlow
