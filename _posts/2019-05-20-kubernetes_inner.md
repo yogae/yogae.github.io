@@ -60,8 +60,53 @@ API 서버를 통해 배포된 리소스에 지정된 대로 시스템의 실제
 
 클러스터의 모든 포드는 클러스터의 내부 DNS 서버를 사용하도록 구성됩니다.
 
-쿠버네티스에서 사용하는 내부 도메인은 서비스와 포드에 대해서 사용할 수 있고 일정한 패턴을 가지고 있습니다. <serviceName>.<namespace>.svc.cluster.local
+쿠버네티스에서 사용하는 내부 도메인은 서비스와 포드에 대해서 사용할 수 있고 일정한 패턴을 가지고 있습니다. 
 
-DNS 서버 포드는 Kube-dns 서비스를 통해 익스포트하고 다른 포드들터럼 포드가 클러스터상에서 이동할 수 있습니다.
+- service 접근 domain: <serviceName>.<namespace>.svc.cluster.local
+
+- pod 접근 domain: <10-10-10-10(pod ip의 .을 -로 변경)>.<namespace>.pod.cluster.local
+
+  - pod ip를 그대로 사용하면 도메인 네임을 사용하는 장점이 사라집니다.
+
+- subdomain 사용
+
+  ```yaml
+  apiVersion: v1
+  kind: Deployment
+  ...
+  template:
+   ...
+   spec:
+    hostname: hname
+    subdomain: subname
+  ```
+
+  subdomain 접근: <hostname>.<subdomain>.default.srv.cluster.local
+
+  Ex) hname.subname.default.srv.cluster.local
+
+DNS 서버 포드는 kube-dns 서비스를 통해 익스포트하고 다른 포드들터럼 포드가 클러스터상에서 이동할 수 있습니다.
 
 서비스의 IP 주소는 클러스터에 배포되는 매 컨테이너 내부의 /etc/resolv.conf 파일의 nameserver에 지정됩니다.
+
+
+
+## 서비스 구현 방식
+
+### Kube-proxy
+
+서비스와 관련된 모든 것은 각 노드에서 실행되는 kube-proxy 프로세스에 의해 처리됩니다.
+
+초기에 kube-proxy는 연결을 기다리는 실제 프록시(userspace 프록시 모드)였지만 성능이 더 우수한 iptables 프록시 모드로 교체되었습니다.
+
+각 서비스는 고유의 안정된 IP주소(가상 IP)와 포트를 가집니다.
+
+### pod에서 pod 통신
+
+1. 패킷의 목적지는 처음에 서비스의 IP와 포트로 설정됩니다.
+
+2. 네트워크로 보내지기 전에 패킷은 먼저 노드에 설정된 iptables 규칙에 따라 노드 A의 커널에 의해 처음 처리됩니다. 
+3. 커널은 패킷이 iptables 규칙 중 하나와 일치하는지 확인합니다. 일치하는 규칙이 있으면 패킷의 목적지 IP와 포트를 무작위로 선택된 포드의 IP와 포트로 대체합니다.
+
+
+
