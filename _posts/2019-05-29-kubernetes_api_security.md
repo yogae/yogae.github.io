@@ -1,6 +1,6 @@
 ---
 layout: post
-title: API 보안
+title: kubernetes API 보안
 data: 2019-05-29
 categories: Kubernetes
 author: yogae
