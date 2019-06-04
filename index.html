@@ -131,6 +131,7 @@ $(".blog-categories").each(function (item, element) {
   iconMap.set("NodeJS", makeIconTag('green', 'NodeJS', 'fab fa-node-js'));
   iconMap.set("AWS", makeIconTag('#ff9900', 'AWS', 'fab fa-aws'));
   iconMap.set("ES", makeIconTag('#00CCCC', 'ES', undefined, 'elastic-cluster.png'));
+  iconMap.set("Kubernetes", makeIconTag('blue', 'Kube', 'fas fa-cubes')); 
 
   const category = $(this).text();
   const result = JSON.parse(category);
