@@ -72,3 +72,125 @@ spec:
 
 ## 컨테이너 보안 컨텍스트 설정
 
+securityContext 속성을 통해 포드와 컨테이너에 보안 관련 기능을 설정할 수 있습니다.
+
+### 보안 컨텍스트에서 설정 가능한 것
+
+- 컨테이너의 프로세스에서 실행할 수 있는 사용자 지정하기
+- 컨테이너가 루트로 실행되는 것을 방지하기
+- 컨테이너를 권한 모드로 실행해 노드의 커널에 대한 모든 액세스 권한을 부여하기
+- 권한 모드로 실행해 컨테이너에 가능한 모든 권한을 주는 것과는 대조적으로 기능을 추가하거나 삭제해 세부적으로 권한 구성하기
+- 컨테이너를 강력하게 잠그기 위해 SELinux 옵션을 설정하기
+- 프로세스가 컨테이너의 파일 시스템에 쓰지 못하게 하기
+
+```bash
+# 사용자 및 그룹 ID 확인
+kubectl exec pod-with-default id
+```
+
+> 컨테이너를 실행하는 사용자는 컨테이너 이미지에 지정됩니다. 도커 파일에서 이것을 USER 지시어를 사용해 수행됩니다. 생략하면 컨테이너는 루트로 실행됩니다.
+
+### 특정 사용자로 컨테이너 실행
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: pod-as-user-guest
+spec:
+ containers:
+ - name: main
+   image: alpine
+   command: ["/bin/sleep", "999999"]
+   securityContext:
+    runAsUser: 405 # 사용자 이름이 아닌 사용자 ID를 설정합니다. 사용자 ID 405는 게스트 사용자를 뜻합니다.
+    # runAsNonRoot: true # 루트 사용자로 실행하는 것을 허용하지 않는다.
+    # privileged: true # 권한 모드로 실행 -> 노드으이 커널에 대한 모든 액세스 권한을 얻는다.
+    # readOnlyRootFilesystem: true # 이 컨테이너의 파일 시스템은 쓰여질 수 없다.
+```
+
+```bash
+kubectl exec pod-as-user-guest
+# response: uid=405(guest) gid=100(users)
+```
+
+> 프로덕션 환경에서 포드를 실행할 때 보안을 강화하려면 컨테이너의 readOnlyRootFileSystem 속서을 true로 설정합니다.
+
+### 컨테이너가 다른 사용자로 실행될 때 볼륨 공유
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: pod-with-shared-volume-fsgroup
+spec:
+ securityContext:
+  fsGroup: 555 # fsGroup, supplementalGroup는 포드 수준에서 보안 컨텍스트에 정의되어 있다.
+  supplementalGroup: [666, 777]
+ containers:
+ - name: first
+   image: alpine
+   command: ["sleep","999999"]
+   securityContext:
+    runAsUser: 1111
+   volumeMounts:
+   - name: shared-volume
+     mountPath: /volume
+     readOnly: false
+ - name: second
+   image: alpine
+   command: ["sleep","999999"]
+   securityContext:
+    runAsUser: 2222
+   volumeMounts:
+   - name: shared-volume
+     mountPath: /volume
+     readOnly: false
+ volumes:
+ - name: shared-volume
+   emptyDir:
+```
+
+> 마운트된 볼륨의 디렉터리에 파일을 작성하면 파일은 사용자 ID 1111 및 그룹 ID 555에 소유된다.
+
+## PodSecurityPolicy 리소스
+
+PodSecurityPolicy는 사용자가 포드에서 사용할 수 있거나 사용할 수 없는 보안 관련 기능이 무엇인지 정의하는 클러스터 수준 리소스입니다.
+
+누군가가 API 서버로 포드 리소스를 게시하면 PodSecurityPolicy 승인 제어 플러그인은 구성된 PodSecurityPolicies를 기반해 포드 정의의 유효성을 검사합니다.
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: PodSecurityPolicy
+metadata:
+ name: default
+spec:
+ hostIPC: false
+ hostPID: false
+ hostNetwork: false
+ hostPorts:
+ - min: 10000
+   max: 11000
+ - min: 13000
+   max: 14000
+ privileged: false
+ readOnlyRootFilesystem: true # 읽기 전용
+ runAsUser:
+  rule: RunAsAny # 어떤 유저나 그룹이든 실행할 수 있다.
+  # 또는 아래와 같이 범위를 지정 가능
+  # rule: MustRunAs
+  # range:
+  # - min: 2
+  #   max: 2
+  
+ fsGroup:
+  rule: RunAsAny
+ supplementalGroup:
+  rule: RunAsAny
+ seLinux:
+  rule: RunAsAny
+ volumes:
+ - '*' # 모든 volume의 유형이 포드에서 사용될 수 있다.
+```
+
+> PodSecurityPolicy는 포드를 생성하거나 업데이트할 때만 반영되기 때문에 정책을 변경해도 기존 포드에는 아무런 영향을 미치지 않는다.
