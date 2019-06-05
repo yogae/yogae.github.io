@@ -191,6 +191,95 @@ spec:
   rule: RunAsAny
  volumes:
  - '*' # 모든 volume의 유형이 포드에서 사용될 수 있다.
+ allowedCapabilities: # 컨테이너에 추가할 수 있는 기능 지정
+ - SYS_TIME
+ defaultAddCapabilities: # 모든 컨테이너에 기능 추가
+ - CHOWN
+ requiedDropCapabilities: # 컨테이너에서 기능 사용 못하게 함
+ - SYS_ADMIN
+ - SYS_MODULE
 ```
 
 > PodSecurityPolicy는 포드를 생성하거나 업데이트할 때만 반영되기 때문에 정책을 변경해도 기존 포드에는 아무런 영향을 미치지 않는다.
+
+### 여러 사용자에게 다른 PodSecurityPolicy 할당하기 위해 RBAC 사용
+
+```bash
+kubectl create clusterrole psp-default --verb=use --
+resource=podsecuritypolicies --resource-name=default # use라는 특별한 동사 구문을 사용
+```
+
+```bash
+kubectl create clusterrolebinding psp-all-users --clusterrol=psp-default --group=system:authenticated
+```
+
+## NetworkPolicy
+
+NetworkPolicy는 포드의 인바운드나 아웃바운드 트래픽을 제한하기 위해 사용합니다.
+
+네임스페이스의 포드는 기본적으로 누구든지 액세스할 수 있습니다.
+
+```yaml
+# 모든 클라이언트가 네임스페이스의 모든 포드에 연결할 수 없도록 설정
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+ name: default-deny
+spec:
+ podSelector: # 포드 셀렉터를 비우면 동일한 네임스페이스의 모든 포드와 매치된다.
+ 
+```
+
+```yaml
+# 특정 pod에서 접근가능하도록 설정
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+ name: database-network
+spec:
+ podSelector:
+  matchLabels:
+   app: database # app=database 라벨을 갖는 포드의 접근을 보호
+ ingress:
+ - from:
+   - podSelector:
+      matchLabels:
+       app: webserver # app=webserver 라벨을 갖는 포드만이 연결을 허용
+   ports:
+    - port: 5432 # 허용할 포트
+```
+
+```yaml
+# 특정 네임스페이스에서 접근가능하도록 설정
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+ name: shoppingcart-network
+spec:
+ podSelector:
+  matchLabels:
+   app: shoppingcart # app=database 라벨을 갖는 포드의 접근을 보호
+ ingress:
+ - from:
+   - namespaceSelector:
+      matchLabels:
+       tenent: manning
+   ports:
+    - port: 80 # 허용할 포트
+```
+
+```yaml
+# CIDR
+ingress:
+- from:
+  - ipBlock:
+     cidr: 192.168.1.0/24
+```
+
+```yaml
+# 트래픽 제한
+egress:
+- from:
+  - ipBlock:
+     cidr: 192.168.1.0/24
+```
