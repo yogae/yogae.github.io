@@ -60,7 +60,105 @@ spec:
      memory: 20Mi
 ```
 
+한 노드에 있는 모든 포드의 모든 한계의 합이 노드의 용량의 100%를 초과할 수 있습니다.
 
+### QoS 클래스
 
+#### 포드의 QoS 클래스
 
+리소스 한계가 과도하게 사용될 때 리소스를 확보하기 위해 제거할 포드를 선택해야합니다. 이런 경우 우선순위를 저정해야하는 데 Kubernetes는 다음과 같이 포드를 3가지 QoS 클래스로 분류합니다.
 
+- BestEffort(최하위 우선순위)
+
+  운선순위가 가장 낮은 QoS 클래스이며 한계가 설정되지 않은 포드에 할당됩니다.
+
+- Burstable(버스트 가능)
+
+  BestEffort와 Guranteed 사이에는 Burstable QoS 클래스가 있습니다. 컨테이너의 한계 사항이 요청과 일치하지 않는 단일 컨테이너 포드와 최소한 하나의 컨테이너에 지정된 리소스 여청이 있지만 한계가 없는 모든 포드가 포함됩니다. Burstable 포드는 요청한 리소스의 양을 얻지만 필요할 경우 추가 리소스를 사용할 수 있습니다. 
+
+- Guranteed(최우선)
+
+  이 클래스는 컨테이너의 요청이 모든 리소스에 대한 한계와 동일한 포드에 제공됩니다. 해당 포드의 컨테이너는 요청한 리소스 양을 얻지만 추가 리소스를 소비할 수 없습니다.(해당 한계가 요청보다 높지 않기 때문에)
+
+#### 컨테이너 QoS 클래스
+
+- CPU: 미설정, Memory: 미설정               컨테이너 QoS 클래스: BestEffort
+- CPU: 요청=한계, Memory: 요청=한계    컨테이너 QoS 클래스: Guranteed
+
+- 나머지                                                      컨테이너 QoS 클래스: Burstable
+
+#### 다수의 컨테이너의 포드 QoS 클래스
+
+- 컨테이너 QoS: BestEffort, 컨테이너 QoS: BestEffort      포드 QoS: BestEffort
+- 컨테이너 QoS: Guranteed, 컨테이너 QoS: Guranteed    포드 QoS: Guranteed
+- 나머지                                                                                  포드 QoS: Burstable
+
+#### QoS 우선순위
+
+메모리가 부족할 경우 BestEffort, Burstable, Guranteed순으로 프로세스가 종료됩니다. 두 개의 단일 컨테이너 포드가 같은 QoS클래스인 경우, 시스템은 백분율을 기준으로 요청된 메모리가 많은 것부터 강제로 종료합니다.
+
+## LimitRange
+
+LimitRange 리소스에 지정된 한계는 LimitRange 객체와 동일한 네임스페이스에 만들어진 개별 포드/ 컨테이너 똔느 그 밖의 개게 종류에 적용됩니다.
+
+네임스페이스의 모든 포드에서 사용할 수 있는 리소스의 총량을 제한하지는 않습니다.(총량은 ResourceQuota 객체를 통해 제한)
+
+```yaml
+apiVersion: v1
+kind: LimitRange
+metadata:
+ name: example
+spec:
+ limits:
+ - type: Pod
+   min:
+    cpu: 50m
+    memory: 5Mi
+   max:
+    cpu: 1
+    momory: 1Gi
+ - type: Container
+   defaultRequest: # 명시적으로 지정하지 않는 컨테이너에 적용될 CPU 및 memory에 대한 요청
+    cpu: 100m
+    memory: 10Mi
+   default: # 컨테이너를 지정하지 않은 컨테이너의 기본 한계 사항
+    cpu: 200m
+    memory: 100Mi
+   min:
+    cpu: 50m
+    memory: 5Mi
+   max:
+    cpu: 1
+    momory: 1Gi
+   maxLimitRequestRatio: # 각 리소스의 한계와 요청 간의 최대 비율
+    cpu: 4 # CPU 한계가 CPU 요처보다 4이상 클 수 없음
+    memory: 10
+ - type: PersistentVolumeClaim # PVC가 요청할 수 있는 최소 최대 스토리지 용량을 설정
+   min:
+    storage: 1Gi
+   max:
+    storage: 10Gi
+```
+
+## ResourceQuota
+
+네임스페이스에서 사용할 수 있는 총 리소스의 양을 제한합니다.
+
+포드가 사용할 수 있는 계산 리소스 양과 네임스페이스에서 영구볼륨 클레임 용량을 제한합니다. 또한 사용자가 네임스페이스 내에서 생성할 수 있는 포드, 클레임, 그 밖의 API 객체의 수를 제한할 수 있습니다.
+
+ResourceQuota 객체는 생성된 네임스페이스에 적용되며, 모든 포드의 리소스 요청 및 한계에 적용되며 각 포드 또는 컨테이너별로 별도로 적용되지 않습니다.
+
+```yaml
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+ name: cpu-and-mem
+spec:
+ hard:
+  requests.cpu: 400m
+  requests.memory: 300Mi
+  limits.cpu: 600m
+  limits.memory: 500Mi
+```
+
+> ResourceQuota를 사용할 때 리소스의 요청 및 제한 용량을 설정하면 포드 또한 ResourceQuota로 제한한 리소스의 요청 및 제한 용량을 설정해야 합니다. 그렇지 않으면 API 서버가 포드를 허용하지 않습니다.
