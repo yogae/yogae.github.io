@@ -1,7 +1,7 @@
 ---
 layout: post
 title: stream으로 데이터 전송 방법 및 axios 사용 문제점
-data: 2019-06-11
+date: 2019-06-11
 categories: ETC
 author: yogae
 ---
