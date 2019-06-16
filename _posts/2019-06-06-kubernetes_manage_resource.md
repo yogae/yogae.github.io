@@ -162,3 +162,51 @@ spec:
 ```
 
 > ResourceQuota를 사용할 때 리소스의 요청 및 제한 용량을 설정하면 포드 또한 ResourceQuota로 제한한 리소스의 요청 및 제한 용량을 설정해야 합니다. 그렇지 않으면 API 서버가 포드를 허용하지 않습니다.
+
+```yaml
+# 영구 스토리지에 할당량 지정
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+ name: storage
+spec:
+ hard:
+  request.storage: 500Gi # PersistentVolumeClaim이 요청할 수 있는 스토리지 양을 500GiB로 제한
+  # StorageClass에 동적으로 할당하는 경우
+  ssd.storageclass.storage.k8s.io/requests.storage: 300Gi 
+  standard.storageclass.storage.k8s.io/requests.storage: 1Ti
+```
+
+```yaml
+# 생성 가능한 객체 수 제한
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+ name: objects
+spec:
+ hard:
+  pods: 10
+  replicationcontrollers: 5
+  secrets: 10
+  configmaps: 10
+  persistentvolumeclaims: 4
+  services: 5
+  services.loadbalancers: 1
+  services.nodeports: 2
+   ssd.storageclass.storage.k8s.io/persistentvolumeclaims: 2
+```
+
+```yaml
+# QoS별 제한
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+ name: besteffort-notterminating-pods
+spec:
+ scopes:
+ - bestEffort
+ - NotTerminating
+ hard:
+  pods: 4
+```
+
