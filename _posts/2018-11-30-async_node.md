@@ -55,17 +55,3 @@ author: yogae
      - 소켓이나 핸들이 갑자기 닫힌 경우(예: `socket.destroy()`) 이 단계에서 `'close'` 이벤트가 발생할 것입니다.
 
      - 일부 close 콜백들, 예를 들어 `socket.on('close', ...)`.
-
-
-
-
-
-# reference
-
-- http://sjh836.tistory.com/149
-- [조대협의 블로그](http://bcho.tistory.com/881?category=513811)
-- https://nodejs.org/ko/docs/guides/event-loop-timers-and-nexttick/
-- https://meetup.toast.com/posts/89
-
-
-

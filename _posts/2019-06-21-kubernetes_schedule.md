@@ -59,3 +59,92 @@ spec:
      effect: NoSchedule
 ```
 
+## 노드 친화성
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: kubia-gpu
+spec:
+ affinity:
+  nodeAffinity:
+   requiredDuringSchedulingIgnoredDurationExcution: # 친화성이 현재 포드 스케줄링에만 영향을 주고 이미 실행 중인 포드가 노드에서 계속 실행할 수 있음을 알려준다.
+    nodeSelectorTerms:
+    - matchExpressions:
+      - key: gpu
+        operator: In
+        values:
+        - "true"
+```
+
+노드 친화성 기능의 장점은 특정 포드를 스케줄할 때 스케줄러가 선호하는 노드를 지정할 수 있다는 점입니다. 이것은 preferredDuringSchedulingIgnoredDurationExcution 필드에서 수행됩니다.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: kubia-gpu
+spec:
+ affinity:
+  nodeAffinity:
+   preferredDuringSchedulingIgnoredDurationExcution: # 선호도
+   - weight: 80
+     preference:
+      matchExpressions:
+      - key: availability-zone
+        operator: In
+        values:
+        - zone1
+   - weight: 20
+     preference:
+      matchExpressions:
+      - key: share-type
+        operator: In
+        values:
+        - dedicated
+```
+
+## 포드 친화성 및 반친화성
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+ name: frontend
+spec:
+ replicas: 5
+ template:
+  ...
+  spec:
+   affinity:
+    podAffinity:
+     requiredDuringSchedulingIgnoredDurationExcution:
+     # app=backend 라벨이 있는 포드와 디플로이먼트가 동일한 노드에 배포돼야 한다는 엄격한 요구 사항을 갖는 포드를 생성한다.
+     - topologyKey: kubernetes.io/hostname # label이 app=backend인 pod가 속한 node의 kubernetes.io/hostname 값을 확인하고 kubernetes.io/hostname 값이 같은 node에 배포한다.
+       labelSelector:
+        matchLables:
+         app: backend
+```
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+ name: frontend
+spec:
+ replicas: 5
+ template:
+  ...
+  spec:
+   affinity:
+    podAffinity: # podAntiAffinity -> 반친화성
+     preferredDuringSchedulingIgnoredDurationExcution: # 선호도
+     - weight: 80
+       podAffinityTerm:
+        topologyKey: kubernetes.io/hostname 
+        labelSelector:
+         matchLables:
+          app: backend
+```
+
