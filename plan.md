@@ -3,12 +3,7 @@ layout: default
 title: About
 ---
 
-## 개발
-- [ ] python을 확용한 간단한 application 구성 - python(flask, zappa)활용
-- [ ] 행동분석 모델링
-
 ## TODO
-- [ ] Python for Data Analsis
 - [ ] 소프트웨어 개발과 테스트
 - [ ] AWS Certified Developer Associate
 - [ ] NGINX
@@ -27,6 +22,7 @@ title: About
 ## In Progress
 - [ ] Kubernetes - Kubernetes IN ACTION
 - [ ] EKS(AWS)
+- [ ] Python for Data Analsis
 
 ## Done
 
@@ -47,3 +43,7 @@ title: About
 - [x] ECS(AWS)
 - [x] CloudFront(AWS)
 - [x] Cognito(AWS)
+
+## 개발
+- [ ] python을 활용한 application 구성 - python(flask, zappa)활용
+- [ ] 행동분석 모델링
