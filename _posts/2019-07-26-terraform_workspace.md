@@ -1,14 +1,12 @@
-# workspace
-- - - -
+---
 layout: post
 title: terraform workspace 사용
 data: 2019-07-26
 categories: Terraform
 author: yogae
-- - - -
-#terraform
-
+---
 환경에 따라 다른 변수를 설정 하여 다른 배포 환경의 인프라를 관리할 수 있다.
+
 ## workspace 관련 명령어
 - new: workspace 추가
 ```bash
